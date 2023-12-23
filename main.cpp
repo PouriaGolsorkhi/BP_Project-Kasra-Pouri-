@@ -31,7 +31,7 @@ void mini_search_en(){
 	// show res
 }
 
-void sign_up(){
+void sing_up(){
 	cout << "enter a username and password" << '\n';
 	string us, ps;
 	while(true){
@@ -52,13 +52,38 @@ void sign_up(){
 	return;
 }
 
-void sign_in(){
-	
+void sing_in(){
+	int cnt = 0;
+	string us, pw;
+	while(++cnt){
+		system("CLS");
+		if(cnt >= 2)
+			cout << "Incorrect username/password" << '\n';
+		cout << "username: ";
+		cin >> us;
+		cout << '\n' << "password: ";
+		cin >> pw;
+		cout << '\n';
+		/* check us & pw */
+	}
 }
 
 void welcome(){
-    sign_up();
-    sign_in();
+	cout << "Hi! please enter your account" << '\n';
+	cout << "If you dont have an account yet, create one! (press 'R' for sing up or 'E' for sing in)" << '\n';
+    string s;
+	while(true){
+		cin >> s;
+		if(s == "R"){
+			sing_up();
+			return;
+		}
+		if(s == "E"){
+			sing_in();
+		}
+	}
+	sing_up();
+    sing_in();
 }
 
 void user_history(/*user id*/){
@@ -89,7 +114,7 @@ void new_map(){
 	while(true){
 		cin >> s;
 		if(s != "h" && s != "e")
-			cout << "Invalid request, try again" << '\n';
+			cout << "Invalid input, try again" << '\n';
 		else
 			break;
 	}
@@ -121,18 +146,20 @@ void dashboard(/*user id*/){
 	play();
 }
 
-void check(string &s){
+void check(string &s, bool &b = true){
 	if(s == "search"){
 		mini_search_en();
 		return;
 	}
 	if(s == "q"){
-		
+		b = false;
+		return;
 	}
+	
 }
 
 int main(){
     opening();
     welcome();
-    dashboard();
+    //dashboard();
 }
