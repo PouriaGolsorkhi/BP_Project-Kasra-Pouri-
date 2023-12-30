@@ -135,4 +135,6 @@ int main(){
     opening();
     welcome();
     dashboard();
+	string name;
+	int a =119;
 }
