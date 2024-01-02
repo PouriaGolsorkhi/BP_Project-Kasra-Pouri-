@@ -3,163 +3,85 @@ using namespace std;
 
 using ll = long long;
 
-int constexpr inf = (1LL << 60), maxn = 100;
+void sing_up(vector<pair<string, string>> &users);
+void sing_in(vector<pair<string, string>> &users);
 
-ll mp[maxn][maxn];
-
-ll rnd(int l = -inf, int r = inf, int k = 0){
-	ll t = time(nullptr);
-	ll rng = r - l - 1;
-	ll res = ((abs(rand()) + t) % rng) + l;
-	if(res >= 0)
-		return res + 1;
-	return res;
-}
-
-void mini_search_en(){
-	/*
-	It will searches parts of program
-	e.g:
-		search(sign up) -> sign up
-	func
-	-------------------------
-	map
-	-------------------------
-	user
-	-------------------------
-	*/
-	// show res
-}
-
-void sing_up(){
-	cout << "enter a username and password" << '\n';
-	string us, ps;
-	while(true){
-		cout << "username = ";
-		cin >> us;
-		if(/*us is a new user name*/)
+void sing_up(vector<pair<string, string>> &users){
+	string s1, s2;
+	while(bool b = false; true; b = true){
+		system("cls");
+		cout << "username: ";
+		if(b)
+			cout << "username is taken" << '\n';	
+		getline(cin, s1);
+		auto poz = lowerbound(users.begin(), users.end(), {s1, ""});
+		if((*poz).first != s1)
 			break;
-		cout << "This username is taken" << '\n';
 	}
-	cout << '\n' << "password = ";
-	cin >> ps;
-	cout << '\n';
-	system("CLS");
-	cout << "Hi! " << us << " wanna have some fun?" << '\n';
-	/*user's data storing in files...*/
-	seelp(2);
-	dashboard();
+	system("cls");
+	cout << "username: " << s1 << '\n';
+	cout << "password: ";
+	getline(cin, s2);
+	
 	return;
 }
 
-void sing_in(){
-	int cnt = 0;
-	string us, pw;
-	while(++cnt){
-		system("CLS");
-		if(cnt >= 2)
-			cout << "Incorrect username/password" << '\n';
-		cout << "username: ";
-		cin >> us;
-		cout << '\n' << "password: ";
-		cin >> pw;
-		cout << '\n';
-		/* check us & pw */
-	}
-}
-
-void welcome(){
-	cout << "Hi! please enter your account" << '\n';
-	cout << "If you dont have an account yet, create one! (press 'R' for sing up or 'E' for sing in)" << '\n';
-    string s;
-	while(true){
-		cin >> s;
-		if(s == "R"){
-			sing_up();
-			return;
-		}
-		if(s == "E"){
-			sing_in();
-		}
-	}
-	sing_up();
-    sing_in();
-}
-
-void user_history(/*user id*/){
+void sing_in(vector<pair<string, string>> &users){
 	
 }
 
-void scoreboard(){
-	user_history(/*user id*/);
-}
-
-void solve(){
-	mp[i][j] = ;
-}
-
-void gen_map(int x, int y, int a = -3, int b = 3){
-	for(int i = 0; i < x; ++i)
-		for(int j = 0; j < x; ++j)
-			if(rnd() & 7 == 7)
-				mp[i][j] = 0;
-			else
-				mp[i][j] = rnd(a, b);
-	return;
-}
-
-void new_map(){
-	cout << "You can create a map in 2 levels, hard(Press h) or easy(Press e) which one you perfer" << '\n';
+void enter(){
+	ifstream us("./accounts/users.txt");
+	ifstream ps("./accounts/pass.txt");
+	if(!us.is_open() || !ps.is_open()){
+		cerr << "Can't find data" << '\n';
+		exit(1);
+	}
+	vector<pair<string, string>> users;
 	string s;
-	while(true){
-		cin >> s;
-		if(s != "h" && s != "e")
-			cout << "Invalid input, try again" << '\n';
-		else
+	while(getline(us, s)){
+		users.push_back({});
+		users.back().first = s;
+		getline(ps, s);
+		users.back().second = s;
+	}
+	us.close();
+	ps.close();
+	sort(users.begin(), users.end());
+	for(bool b = false; true; b = true){
+		system("cls");
+		cout << "Have an account? (y/n)" << '\n';
+		if(b)
+			cout << "invalid input, try again" << '\n';
+		getline(cin, s);
+		if(s == "y" || s == "n")
 			break;
 	}
-	int x, y, a, b;
-	cout << "Now please specify the width and hight of the map: ";
-	cin >> x >> y;
-	if(s[0] == 'e'){
-		gen_map(x, y);
-		return;
-	}
-	cout << "Numbers in grids cells in range of [a, b], specify a & b" << '\n';
-	cout << "a = ";
-	cin >> a;
-	cout << '\n' << "b = ";
-	cin >> b;
-	gen_map(x, y, a, b);
+	if(s[0] == 'y')
+		sing_in(users, pass);
+	else
+		sing_up(users, pass);
 	return;
 }
 
-
-void play(){
-	old_map();
-	new_map();
-}
-
-void dashboard(/*user id*/){
-	scoreboard();
-	user_history(/*user id*/);
-	play();
-}
-
-void check(string &s, bool &b = true){
-	if(s == "search"){
-		mini_search_en();
-		return;
-	}
-	if(s == "q"){
-		b = false;
-		return;
-	}
+void menu(){
+	cout << "1. Create a New Map" << '\n';
+	cout << '\t' << "- 1.1 Easy" << '\n';
+	cout << '\t' << "- 1.2 Hard" << '\n';
+	cout << "2. Playground" << '\n';
+	cout << '\t' << "- 2.1 Choose from Existing Maps" << '\n';
+	cout << '\t' << "- 2.2 Import a Custom Map" << '\n';
+	cout << "3. Solve a Maze" << '\n';
+	cout << '\t' << "- 3.1 Choose from Existing Maps" << '\n';
+	cout << '\t' << "- 3.2 Import a Custom Map" << '\n';
+	cout << "4. History" << '\n';
+	cout << "5. Leaderboard" << '\n';
+	cout << "6. Exit" << '\n';
 	
 }
 
 int main(){
-    opening();
-    welcome();
-    //dashboard();
+	enter();
+	menu();
+	return 0;
 }
