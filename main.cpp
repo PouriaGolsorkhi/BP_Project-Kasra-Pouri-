@@ -12,7 +12,7 @@ void sing_in(vector<pair<string, string>> &users);
 void head(){
 	cout << "MAZE-MAVERTIK\n";
 	cout << "Created by Kasra Fouladi & Pouria Golsorkhi\n";
-	cout << "-------------------------------------------------------------\n\n";
+	cout << "_______________________________________________\n\n";
 	return;
 }
 
