@@ -44,7 +44,7 @@ void head(){
 		cout << "_______________________________________________\n\n";
 	else{
 		cout << "_______________________________________________\n";
-		SetConsoleTextAttribute(col, 9);
+		SetConsoleTextAttribute(col, 1);
 		cout << "  " << user1 << "\n";
 		SetConsoleTextAttribute(col, 15);
 		cout << "_______________________________________________\n\n";
