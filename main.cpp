@@ -193,10 +193,72 @@ void enter(){
 }
 
 void history(string &s){
+	string s1;
+	ifstream games("./accounts/games" + s + ".txt");
+	system("cls");
 	head();
-	cout << "time             |map name                  |solved(y/n)|timer|rating changes" << '\n';
-	cout << "-----------------------------------------------------------------------------" << '\n';
-	cout << "|14:53 30/11/2024|it's my first map         |y          |99999|         +500|" << '\n';
+	cout << "Your history:" << '\n';
+	cout << "__________________________________________________________________________________" << '\n';
+	cout << "|";
+	SetConsoleTextAttribute(col, 9);
+	cout << "time";
+	SetConsoleTextAttribute(col, 15);
+	cout << "               |";
+	SetConsoleTextAttribute(col, 9);
+	cout << "map name";
+	SetConsoleTextAttribute(col, 15);
+	cout << "                  |";
+	SetConsoleTextAttribute(col, 9);
+	cout << "solved(y/n)";
+	SetConsoleTextAttribute(col, 15);
+	cout << "|";
+	SetConsoleTextAttribute(col, 9);
+	cout << "timer";
+	SetConsoleTextAttribute(col, 15);
+	cout << " |";
+	SetConsoleTextAttribute(col, 9);
+	cout << "rating changes";
+	SetConsoleTextAttribute(col, 15);
+	cout << "|" << '\n';
+	while(true){
+		cout << "|___________________|__________________________|___________|______|______________|" << '\n';
+		if(!getline(games, s1))
+			break;
+		cout << "|";
+		SetConsoleTextAttribute(col, 10);
+		//cout << "14:53:50 11/30/2024";
+		cout << s1;
+		SetConsoleTextAttribute(col, 15);
+		cout << "|";
+		SetConsoleTextAttribute(col, 10);
+		getline(games, s1);
+		cout << s1;
+		//cout << "it's my first map         ";
+		SetConsoleTextAttribute(col, 15);
+		cout << "|";
+		SetConsoleTextAttribute(col, 10);
+		getline(games, s1);
+		cout << s1;
+		//cout << "y";
+		SetConsoleTextAttribute(col, 15);
+		cout << "          |";
+		SetConsoleTextAttribute(col, 10);
+		getline(games, s1);
+		cout << s1;
+		//cout << "999999";
+		SetConsoleTextAttribute(col, 15);
+		cout << "|";
+		SetConsoleTextAttribute(col, 10);
+		getline(games, s1);
+		cout << s1;
+		//cout << "+500          ";
+		SetConsoleTextAttribute(col, 15);
+		cout << "|" << '\n';
+	}
+	cout << "To back into the menu press any key" << '\n';
+	getch();
+	menu();
+	return;
 	return;
 }
 
@@ -306,58 +368,6 @@ void menu(){
 }
 
 int main(){
-	head();
-	cout << "________________________________________________________________________________" << '\n';
-	cout << "|";
-	SetConsoleTextAttribute(col, 9);
-	cout << "time";
-	SetConsoleTextAttribute(col, 15);
-	cout << "             |";
-	SetConsoleTextAttribute(col, 9);
-	cout << "map name";
-	SetConsoleTextAttribute(col, 15);
-	cout << "                  |";
-	SetConsoleTextAttribute(col, 9);
-	cout << "solved(y/n)";
-	SetConsoleTextAttribute(col, 15);
-	cout << "|";
-	SetConsoleTextAttribute(col, 9);
-	cout << "timer";
-	SetConsoleTextAttribute(col, 15);
-	cout << " |";
-	SetConsoleTextAttribute(col, 9);
-	cout << "rating changes";
-	SetConsoleTextAttribute(col, 15);
-	cout << "|" << '\n';
-	//cout << "|________________|__________________________|___________|______|______________|" << '\n';
-	for(int i = 0; i < 10; ++i){
-		cout << "|_________________|__________________________|___________|______|______________|" << '\n';
-		//cout << "|-----------------|--------------------------|-----------|------|--------------|" << '\n';
-		cout << "|";
-		SetConsoleTextAttribute(col, 10);
-		cout << "14:53:50 11/30/24";
-		SetConsoleTextAttribute(col, 15);
-		cout << "|";
-		SetConsoleTextAttribute(col, 10);
-		cout << "it's my first map";
-		SetConsoleTextAttribute(col, 15);
-		cout << "         |";
-		SetConsoleTextAttribute(col, 10);
-		cout << "y";
-		SetConsoleTextAttribute(col, 15);
-		cout << "          |";
-		SetConsoleTextAttribute(col, 10);
-		cout << "999999";
-		SetConsoleTextAttribute(col, 15);
-		cout << "|";
-		SetConsoleTextAttribute(col, 10);
-		cout << "+500";
-		SetConsoleTextAttribute(col, 15);
-		cout << "          ";
-		cout << "|" << '\n';
-	}
-	cout << "|_________________|__________________________|___________|______|______________|" << '\n';
-	return 0;
 	enter();
 	menu();
 	return 0;
