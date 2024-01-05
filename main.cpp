@@ -11,6 +11,9 @@ using ll = long long;
 
 void sing_up(vector<pair<string, string>> &users);
 void sing_in(vector<pair<string, string>> &users);
+void menu();
+void enter();
+void history();
 
 string user;
 
@@ -189,6 +192,14 @@ void enter(){
 	return;
 }
 
+void history(string &s){
+	head();
+	cout << "time             |map name                  |solved(y/n)|timer|rating changes" << '\n';
+	cout << "-----------------------------------------------------------------------------" << '\n';
+	cout << "|14:53 30/11/2024|it's my first map         |y          |99999|         +500|" << '\n';
+	return;
+}
+
 void menu(){
 	bool p = true;
 	string s = "1", s1 = ".";
@@ -274,7 +285,7 @@ void menu(){
 				return;
 			}
 			if(s[0] == '4'){
-				//history(user);
+				history(user);
 				return;
 			}
 			if(s[0] == '3'){
@@ -295,6 +306,58 @@ void menu(){
 }
 
 int main(){
+	head();
+	cout << "________________________________________________________________________________" << '\n';
+	cout << "|";
+	SetConsoleTextAttribute(col, 9);
+	cout << "time";
+	SetConsoleTextAttribute(col, 15);
+	cout << "             |";
+	SetConsoleTextAttribute(col, 9);
+	cout << "map name";
+	SetConsoleTextAttribute(col, 15);
+	cout << "                  |";
+	SetConsoleTextAttribute(col, 9);
+	cout << "solved(y/n)";
+	SetConsoleTextAttribute(col, 15);
+	cout << "|";
+	SetConsoleTextAttribute(col, 9);
+	cout << "timer";
+	SetConsoleTextAttribute(col, 15);
+	cout << " |";
+	SetConsoleTextAttribute(col, 9);
+	cout << "rating changes";
+	SetConsoleTextAttribute(col, 15);
+	cout << "|" << '\n';
+	//cout << "|________________|__________________________|___________|______|______________|" << '\n';
+	for(int i = 0; i < 10; ++i){
+		cout << "|_________________|__________________________|___________|______|______________|" << '\n';
+		//cout << "|-----------------|--------------------------|-----------|------|--------------|" << '\n';
+		cout << "|";
+		SetConsoleTextAttribute(col, 10);
+		cout << "14:53:50 11/30/24";
+		SetConsoleTextAttribute(col, 15);
+		cout << "|";
+		SetConsoleTextAttribute(col, 10);
+		cout << "it's my first map";
+		SetConsoleTextAttribute(col, 15);
+		cout << "         |";
+		SetConsoleTextAttribute(col, 10);
+		cout << "y";
+		SetConsoleTextAttribute(col, 15);
+		cout << "          |";
+		SetConsoleTextAttribute(col, 10);
+		cout << "999999";
+		SetConsoleTextAttribute(col, 15);
+		cout << "|";
+		SetConsoleTextAttribute(col, 10);
+		cout << "+500";
+		SetConsoleTextAttribute(col, 15);
+		cout << "          ";
+		cout << "|" << '\n';
+	}
+	cout << "|_________________|__________________________|___________|______|______________|" << '\n';
+	return 0;
 	enter();
 	menu();
 	return 0;
