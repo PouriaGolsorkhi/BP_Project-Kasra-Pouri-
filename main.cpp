@@ -1,4 +1,9 @@
-#include<bits/stdc++.h>
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<vector>
+#include<math.h>
+#include<algorithm>
 #include<conio.h>
 #include<iomanip>
 #include<stdlib.h>
@@ -13,9 +18,10 @@ void sing_up(vector<pair<string, string>> &users);
 void sing_in(vector<pair<string, string>> &users);
 void menu();
 void enter();
-void history();
+void history(string &s);
+void leaderboard();
 
-string user;
+string user, user1;
 
 string hs(string &s){
 	ll bs[5] = {259, 258, 257, 256, 263};
@@ -34,7 +40,15 @@ string hs(string &s){
 void head(){
 	cout << "MAZE-MAVERICK\n";
 	cout << "Created by Kasra Fouladi & Pouria Golsorkhi\n";
-	cout << "_______________________________________________\n\n";
+	if(user1 == "")
+		cout << "_______________________________________________\n\n";
+	else{
+		cout << "_______________________________________________\n";
+		SetConsoleTextAttribute(col, 9);
+		cout << "  " << user1 << "\n";
+		SetConsoleTextAttribute(col, 15);
+		cout << "_______________________________________________\n\n";
+	}
 	return;
 }
 
@@ -120,12 +134,24 @@ void sing_up(vector<pair<string, string>> &users){
 		ps << e.second << '\n';
 	}
 	user = hs(s1);
+	user1 = s1;
 	us << user << '\n';
 	ps << hs(s2) << '\n';
 	us.close();
 	ps.close();
 	ofstream games("./accounts/games/" + user + ".txt");
 	games.close();
+	ifstream rank("./accounts/ranking.txt");
+	vector<string> rnk;
+	while(getline(rank, s3))
+		rnk.push_back(s3);
+	rank.close();
+	ofstream rank1("./accounts/ranking.txt");
+	rnk.push_back(s1);
+	rnk.push_back("0");
+	for(auto &e: rnk)
+		rank1 << e << '\n';
+	rank1.close();
 	return;
 }
 
@@ -151,9 +177,11 @@ void sing_in(vector<pair<string, string>> &users){
 			return;	
 		}
 		int ind = get_ind(users, s1);
-		user = hs(s1);
-		if(ind != -1 && users[ind].first == user && users[ind].second == hs(s2))
+		if(ind != -1 && users[ind].first == hs(s1) && users[ind].second == hs(s2)){
+			user = hs(s1);
+			user1 = s1;
 			return;
+		}
 	}
 	return;
 }
@@ -197,68 +225,131 @@ void history(string &s){
 	ifstream games("./accounts/games" + s + ".txt");
 	system("cls");
 	head();
+	vector<string> act;
+	while(getline(games, s1))
+		act.push_back(s1);
 	cout << "Your history:" << '\n';
 	cout << "__________________________________________________________________________________" << '\n';
 	cout << "|";
 	SetConsoleTextAttribute(col, 9);
-	cout << "time";
+	cout << "Time";
 	SetConsoleTextAttribute(col, 15);
 	cout << "               |";
 	SetConsoleTextAttribute(col, 9);
-	cout << "map name";
+	cout << "Map Name";
 	SetConsoleTextAttribute(col, 15);
 	cout << "                  |";
 	SetConsoleTextAttribute(col, 9);
-	cout << "solved(y/n)";
+	cout << "Solved(Y/N)";
 	SetConsoleTextAttribute(col, 15);
 	cout << "|";
 	SetConsoleTextAttribute(col, 9);
-	cout << "timer";
+	cout << "Timer";
 	SetConsoleTextAttribute(col, 15);
 	cout << " |";
 	SetConsoleTextAttribute(col, 9);
-	cout << "rating changes";
+	cout << "Rating Changes";
 	SetConsoleTextAttribute(col, 15);
 	cout << "|" << '\n';
-	while(true){
+	for(int i = 0; true; ++i){
 		cout << "|___________________|__________________________|___________|______|______________|" << '\n';
-		if(!getline(games, s1))
+		if(i == act.size())
 			break;
 		cout << "|";
 		SetConsoleTextAttribute(col, 10);
-		//cout << "14:53:50 11/30/2024";
-		cout << s1;
+		cout << act[i];
 		SetConsoleTextAttribute(col, 15);
 		cout << "|";
 		SetConsoleTextAttribute(col, 10);
-		getline(games, s1);
-		cout << s1;
-		//cout << "it's my first map         ";
+		++i;
+		cout << act[i];
 		SetConsoleTextAttribute(col, 15);
 		cout << "|";
 		SetConsoleTextAttribute(col, 10);
-		getline(games, s1);
-		cout << s1;
-		//cout << "y";
+		++i;
+		cout << act[i];
 		SetConsoleTextAttribute(col, 15);
 		cout << "          |";
 		SetConsoleTextAttribute(col, 10);
-		getline(games, s1);
-		cout << s1;
-		//cout << "999999";
+		++i;
+		cout << act[i];
+		for(int j = 0; j < 6 - act[i].size(); ++j)
+			cout << " ";
 		SetConsoleTextAttribute(col, 15);
 		cout << "|";
 		SetConsoleTextAttribute(col, 10);
-		getline(games, s1);
-		cout << s1;
-		//cout << "+500          ";
+		++i;
+		cout << act[i];
+		for(int j = 0; j < 13 - act[i].size(); ++j)
+			cout << " ";
 		SetConsoleTextAttribute(col, 15);
 		cout << "|" << '\n';
 	}
-	cout << "To back into the menu press any key" << '\n';
+	cout << "\nTo back into the menu press any key ";
 	getch();
 	menu();
 	return;
+}
+
+void leaderboard(){
+	ifstream ranking("./accounts/ranking.txt");
+	string s1, s2;
+	vector<pair<string, int>> standing;
+	while(getline(ranking, s1)){
+		getline(ranking, s2);
+		int num = 0;
+		for(int i = 0; i < s2.size(); ++i)
+			num = num * 10 + s2[i] - '0';
+		standing.push_back({s1, num});
+	}
+	sort(standing.begin(), standing.end(), [&](pair<string, int> e1, pair<string, int> e2){return e1.second > e2.second;});
+	system("cls");
+	head();
+	cout << "_______________________________________" << '\n';
+	cout << "|";
+	SetConsoleTextAttribute(col, 9);
+	cout << "Ranking";
+	SetConsoleTextAttribute(col, 15);
+	cout << "|";
+	SetConsoleTextAttribute(col, 9);
+	cout << "Handle                ";
+	SetConsoleTextAttribute(col, 15);
+	cout << "|";
+	SetConsoleTextAttribute(col, 9);
+	cout << "Rating";
+	SetConsoleTextAttribute(col, 15);
+	cout << "|" << '\n';
+	for(int i = 0; true; ++i){
+		cout << "|_______|______________________|______|" << '\n';
+		if(i == standing.size())
+			break;
+		int l;
+		cout << "|";
+		SetConsoleTextAttribute(col, 10);
+		cout << "#" << i + 1;
+		l = ceil(log10(i + 2));
+		for(int j = 0; j < 6 - l; ++j)
+			cout << " ";
+		SetConsoleTextAttribute(col, 15);
+		cout << "|";
+		SetConsoleTextAttribute(col, 10);
+		cout << standing[i].first;
+		for(int j = 0; j < 22 - standing[i].first.size(); ++j)
+			cout << " ";
+		SetConsoleTextAttribute(col, 15);
+		cout << "|";
+		SetConsoleTextAttribute(col, 10);
+		cout << standing[i].second;
+		l = ceil(log10(standing[i].second + 1));
+		l = max(1, l);
+		for(int j = 0; j < 6 - l; ++j)
+			cout << " ";
+		SetConsoleTextAttribute(col, 15);
+		cout << "|" << '\n';
+	}
+	cout << "\nTo back into the menu press any key ";
+	getch();
+	menu();
 	return;
 }
 
@@ -343,7 +434,7 @@ void menu(){
 			if(s[0] == '6')
 				exit(0);
 			if(s[0] == '5'){
-				//leaderboard();
+				leaderboard();
 				return;
 			}
 			if(s[0] == '4'){
