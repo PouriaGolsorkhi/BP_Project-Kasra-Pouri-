@@ -13,13 +13,17 @@ void sing_up(vector<pair<string, string>> &users);
 void sing_in(vector<pair<string, string>> &users);
 
 string hs(string &s){
-	int bs = 9, mod = 1000000021, res = 0;
-	for(int i = 0; i < s.size(); ++i){
-		res = (res * bs) % mod;
-		res += s[i] - 'a' + 1;
-		res %= mod;
-	}
-	return to_string(res);
+	int bs[4] = {259, 258, 257, 256};
+	int md[4] = {1000000021, 1000000009, 1000000007, 998244353};
+	int sum = 0;
+	string res = "";
+	for(int k = 0; k < 4; ++k, res += to_string(sum), sum = 0)
+		for(int i = 0; i < s.size(); ++i){
+			sum = (sum * bs[k]) % md[k];
+			sum += s[i];
+			sum %= md[k];
+		}
+	return res;
 }
 
 void head(){
@@ -180,51 +184,75 @@ void enter(){
 }
 
 void menu(){
-	char s = 0;
+	string s = "";
 	for(bool b = false; true; b = true){
 		system("cls");
 		head();
 		cout << "Menu:" << '\n';
-		if(s == '1')
+		if(s[0] == '1')
 			SetConsoleTextAttribute(col, 6);
 		cout << "  1. Create New Map" << '\n';
+		if(s == "1.1")
+			SetConsoleTextAttribute(col, 8);
 		cout << "    - 1.1 Easy" << '\n';
+		if(s == "1.1")
+			SetConsoleTextAttribute(col, 6);
+		if(s == "1.2")
+			SetConsoleTextAttribute(col, 8);
 		cout << "    - 1.2 Hard" << '\n';
-		if(s == '1')
+		if(s == "1.2")
+			SetConsoleTextAttribute(col, 6);
+		if(s[0] == '1')
 			SetConsoleTextAttribute(col, 15);
-		if(s == '2')
+		if(s[0] == '2')
 			SetConsoleTextAttribute(col, 6);
 		cout << "  2. Playground" << '\n';
+		if(s == "2.1")
+			SetConsoleTextAttribute(col, 8);
 		cout << "    - 2.1 Choose from Existing Maps" << '\n';
+		if(s == "2.1")
+			SetConsoleTextAttribute(col, 6);
+		if(s == "2.2")
+			SetConsoleTextAttribute(col, 8);
 		cout << "    - 2.2 Import a Custom Map" << '\n';
-		if(s == '2')
+		if(s == "2.2")
+			SetConsoleTextAttribute(col, 6);
+		if(s[0] == '2')
 			SetConsoleTextAttribute(col, 15);
-		if(s == '3')
+		if(s[0] == '3')
 			SetConsoleTextAttribute(col, 6);
 		cout << "  3. Solve a Maze" << '\n';
+		if(s == "3.1")
+			SetConsoleTextAttribute(col, 8);
 		cout << "    - 3.1 Choose from Existing Maps" << '\n';
+		if(s == "3.1")
+			SetConsoleTextAttribute(col, 6);
+		if(s == "3.2")
+			SetConsoleTextAttribute(col, 8);
 		cout << "    - 3.2 Import a Custom Map" << '\n';
-		if(s == '3')
+		if(s == "3.2")
+			SetConsoleTextAttribute(col, 6);
+		if(s[0] == '3')
 			SetConsoleTextAttribute(col, 15);
-		if(s == '4')
+		if(s == "4")
 			SetConsoleTextAttribute(col, 6);
 		cout << "  4. History" << '\n';
-		if(s == '4')
+		if(s == "4")
 			SetConsoleTextAttribute(col, 15);
-		if(s == '5')
+		if(s == "5")
 			SetConsoleTextAttribute(col, 6);
 		cout << "  5. Leaderboard" << '\n';
-		if(s == '5')
+		if(s == "5")
 			SetConsoleTextAttribute(col, 15);
-		if(s == '6')
+		if(s == "6")
 			SetConsoleTextAttribute(col, 6);
 		cout << "  6. Exit" << '\n';
-		if(s == '6')
+		if(s == "6")
 			SetConsoleTextAttribute(col, 15);
 		cout << "----------\nIf you want to select an option press it's section number\n----------\n" << '\n';
-		if(!(s >= '1' && s <= '6') && b)
+		if(!((s.size() == 1 && s[0] <= '6' && s[0] >= '1') || (s.size() == 3 && s[1] == '.' && s[2] <= '2' && s[2] >= '1' && s[0] <= '3' && s[0] >= '1')) && b)
 			cout << "invalid input, try again" << '\n';
-		s = getch();
+		getline(cin, s);
 	}
 	return;
 }
