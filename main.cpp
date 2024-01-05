@@ -2,7 +2,10 @@
 #include<conio.h>
 #include<iomanip>
 #include<stdlib.h>
+#include<windows.h>
 using namespace std;
+
+HANDLE col =  GetStdHandle(STD_OUTPUT_HANDLE);
 
 using ll = long long;
 
@@ -155,38 +158,47 @@ void enter(){
 }
 
 void menu(){
-	char s;
+	char s = 0;
 	for(bool b = false; true; b = true){
 		system("cls");
 		head();
 		cout << "Menu:" << '\n';
-		if(!b || s == '1'){
-			cout << "  1. Create a New Map" << '\n';
-			if(b){
-				cout << "    - 1.1 Easy" << '\n';
-				cout << "    - 1.2 Hard" << '\n';
-			}
-		}
-		if(!b || s == '2'){
-			cout << "  2. Playground" << '\n';
-			if(b){
-				cout << "    - 2.1 Choose from Existing Maps" << '\n';
-				cout << "    - 2.2 Import a Custom Map" << '\n';
-			}
-		}
-		if(!b || s == '3'){
-			cout << "  3. Solve a Maze" << '\n';
-			if(b){
-				cout << "    - 3.1 Choose from Existing Maps" << '\n';
-				cout << "    - 3.2 Import a Custom Map" << '\n';
-			}
-		}
-		if(!b || s == '4')
-			cout << "  4. History" << '\n';
-		if(!b || s == '5')
-			cout << "  5. Leaderboard" << '\n';
-		if(!b || s == '6')
-			cout << "  6. Exit" << '\n';
+		if(s == '1')
+			SetConsoleTextAttribute(col, 6);
+		cout << "  1. Create New Map" << '\n';
+		cout << "    - 1.1 Easy" << '\n';
+		cout << "    - 1.2 Hard" << '\n';
+		if(s == '1')
+			SetConsoleTextAttribute(col, 15);
+		if(s == '2')
+			SetConsoleTextAttribute(col, 6);
+		cout << "  2. Playground" << '\n';
+		cout << "    - 2.1 Choose from Existing Maps" << '\n';
+		cout << "    - 2.2 Import a Custom Map" << '\n';
+		if(s == '2')
+			SetConsoleTextAttribute(col, 15);
+		if(s == '3')
+			SetConsoleTextAttribute(col, 6);
+		cout << "  3. Solve a Maze" << '\n';
+		cout << "    - 3.1 Choose from Existing Maps" << '\n';
+		cout << "    - 3.2 Import a Custom Map" << '\n';
+		if(s == '3')
+			SetConsoleTextAttribute(col, 15);
+		if(s == '4')
+			SetConsoleTextAttribute(col, 6);
+		cout << "  4. History" << '\n';
+		if(s == '4')
+			SetConsoleTextAttribute(col, 15);
+		if(s == '5')
+			SetConsoleTextAttribute(col, 6);
+		cout << "  5. Leaderboard" << '\n';
+		if(s == '5')
+			SetConsoleTextAttribute(col, 15);
+		if(s == '6')
+			SetConsoleTextAttribute(col, 6);
+		cout << "  6. Exit" << '\n';
+		if(s == '6')
+			SetConsoleTextAttribute(col, 15);
 		cout << "----------\nIf you want to select an option press it's section number\n----------\n" << '\n';
 		if(!(s >= '1' && s <= '6') && b)
 			cout << "invalid input, try again" << '\n';
