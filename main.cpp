@@ -12,12 +12,14 @@ using ll = long long;
 void sing_up(vector<pair<string, string>> &users);
 void sing_in(vector<pair<string, string>> &users);
 
+string user;
+
 string hs(string &s){
-	int bs[4] = {259, 258, 257, 256};
-	int md[4] = {1000000021, 1000000009, 1000000007, 998244353};
-	int sum = 0;
+	ll bs[5] = {259, 258, 257, 256, 263};
+	ll md[5] = {1000000021, 1000000009, 1000000007, 998244353, 7333333313LL};
+	ll sum = 0;
 	string res = "";
-	for(int k = 0; k < 4; ++k, res += to_string(sum), sum = 0)
+	for(int k = 0; k < 5; ++k, res += to_string(sum), sum = 0)
 		for(int i = 0; i < s.size(); ++i){
 			sum = (sum * bs[k]) % md[k];
 			sum += s[i];
@@ -114,10 +116,13 @@ void sing_up(vector<pair<string, string>> &users){
 		us << e.first << '\n';
 		ps << e.second << '\n';
 	}
-	us << hs(s1) << '\n';
+	user = hs(s1);
+	us << user << '\n';
 	ps << hs(s2) << '\n';
 	us.close();
 	ps.close();
+	ofstream games("./accounts/games/" + user + ".txt");
+	games.close();
 	return;
 }
 
@@ -143,7 +148,8 @@ void sing_in(vector<pair<string, string>> &users){
 			return;	
 		}
 		int ind = get_ind(users, s1);
-		if(ind != -1 && users[ind].first == hs(s1) && users[ind].second == hs(s2))
+		user = hs(s1);
+		if(ind != -1 && users[ind].first == user && users[ind].second == hs(s2))
 			return;
 	}
 	return;
@@ -184,7 +190,8 @@ void enter(){
 }
 
 void menu(){
-	string s = "";
+	bool p = true;
+	string s = "1", s1 = ".";
 	for(bool b = false; true; b = true){
 		system("cls");
 		head();
@@ -249,10 +256,40 @@ void menu(){
 		cout << "  6. Exit" << '\n';
 		if(s == "6")
 			SetConsoleTextAttribute(col, 15);
-		cout << "----------\nIf you want to select an option press it's section number\n----------\n" << '\n';
-		if(!((s.size() == 1 && s[0] <= '6' && s[0] >= '1') || (s.size() == 3 && s[1] == '.' && s[2] <= '2' && s[2] >= '1' && s[0] <= '3' && s[0] >= '1')) && b)
+		cout << "----------\nIf you want to select an option press it's section number\nAfter you set the section you want to go press enter key\n----------" << '\n';
+		if(!((s.size() == 1 && s[0] <= '6' && s[0] >= '1') || (s.size() == 3 && s[1] == '.' && s[2] <= '2' && s[2] >= '1' && s[0] <= '3' && s[0] >= '1')) && b){
 			cout << "invalid input, try again" << '\n';
-		getline(cin, s);
+			p = false;
+		}
+		else
+			p = true;
+		getline(cin, s1);
+		if(s1 != "")
+			s = s1;
+		else if(p){
+			if(s[0] == '6')
+				exit(0);
+			if(s[0] == '5'){
+				//leaderboard();
+				return;
+			}
+			if(s[0] == '4'){
+				//history(user);
+				return;
+			}
+			if(s[0] == '3'){
+				//play(s);
+				return;
+			}
+			if(s[0] == '2'){
+				//playgr(s);
+				return;
+			}
+			if(s[0] == '1'){
+				//createmp(s);
+				return;
+			}
+		}
 	}
 	return;
 }
