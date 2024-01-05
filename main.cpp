@@ -12,6 +12,16 @@ using ll = long long;
 void sing_up(vector<pair<string, string>> &users);
 void sing_in(vector<pair<string, string>> &users);
 
+string hs(string &s){
+	int bs = 9, mod = 1000000021, res = 0;
+	for(int i = 0; i < s.size(); ++i){
+		res = (res * bs) % mod;
+		res += s[i] - 'a' + 1;
+		res %= mod;
+	}
+	return to_string(res);
+}
+
 void head(){
 	cout << "MAZE-MAVERICK\n";
 	cout << "Created by Kasra Fouladi & Pouria Golsorkhi\n";
@@ -20,8 +30,9 @@ void head(){
 }
 
 int get_ind(vector<pair<string, string>> &users, string &s){
+	string s1 = hs(s);
 	for(int i = 0; i < users.size(); ++i)
-		if(users[i].first == s)
+		if(users[i].first == s1)
 			return i;
 	return -1;
 }
@@ -40,7 +51,7 @@ void psw(string &s){
 		}
 		else{
 			cout << c;
-			sleep(1);
+			for(int i = 0; i < 300000000; ++i);
 			cout << "\b*";
 			s.push_back(c);
 		}
@@ -49,7 +60,7 @@ void psw(string &s){
 }
 
 void sing_up(vector<pair<string, string>> &users){
-	string s1, s2;
+	string s1, s2, s3;
 	for(bool b = false; true; b = true){
 		system("cls");
 		head();
@@ -67,17 +78,31 @@ void sing_up(vector<pair<string, string>> &users){
 		if(ind == -1)
 			break;
 	}
-	system("cls");
-	head();
-	cout << "If you have an account and want to sing in write \"sing in\" and press enter" << '\n';
-	cout << "-------------------\n";
-	cout << "username: " << s1 << '\n';
-	cout << "password: ";
-	//getline(cin, s2);
-	psw(s2);
-	if(s2 == "sing in"){
-		sing_in(users);
-		return;	
+	for(bool b = false; true; b = true){
+		system("cls");
+		head();
+		cout << "If you have an account and want to sing in write \"sing in\" and press enter" << '\n';
+		cout << "-------------------\n";
+		if(b){
+			cout << "password isn't match" << '\n';
+			cout << "-------------------\n";
+		}
+		cout << "username: " << s1 << '\n';
+		cout << "password: ";
+		psw(s2);
+		if(s2 == "sing in"){
+			sing_in(users);
+			return;	
+		}
+		cout << '\n';
+		cout << "confirm passwaord: ";
+		psw(s3);
+		if(s3 == "sing in"){
+			sing_in(users);
+			return;	
+		}
+		if(s2 == s3)
+			break;
 	}
 	ofstream us("./accounts/users.txt");
 	ofstream ps("./accounts/pass.txt");
@@ -85,8 +110,8 @@ void sing_up(vector<pair<string, string>> &users){
 		us << e.first << '\n';
 		ps << e.second << '\n';
 	}
-	us << s1 << '\n';
-	ps << s2 << '\n';
+	us << hs(s1) << '\n';
+	ps << hs(s2) << '\n';
 	us.close();
 	ps.close();
 	return;
@@ -103,21 +128,18 @@ void sing_in(vector<pair<string, string>> &users){
 			cout << "username or password is in correct" << '\n';
 		cout << "username: ";
 		getline(cin, s1);
-		if(s1 == "sing in"){
-			sing_in(users);
+		if(s1 == "sing up"){
+			sing_up(users);
 			return;	
 		}
 		cout << "password: ";
-		/////////////////
-		//getline(cin, s2);
 		psw(s2);
-		/////////////////
-		if(s2 == "sing in"){
-			sing_in(users);
+		if(s2 == "sing up"){
+			sing_up(users);
 			return;	
 		}
 		int ind = get_ind(users, s1);
-		if(ind != -1 && users[ind].first == s1 && users[ind].second == s2)
+		if(ind != -1 && users[ind].first == hs(s1) && users[ind].second == hs(s2))
 			return;
 	}
 	return;
