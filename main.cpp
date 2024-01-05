@@ -10,7 +10,7 @@ void sing_up(vector<pair<string, string>> &users);
 void sing_in(vector<pair<string, string>> &users);
 
 void head(){
-	cout << "MAZE-MAVERTIK\n";
+	cout << "MAZE-MAVERICK\n";
 	cout << "Created by Kasra Fouladi & Pouria Golsorkhi\n";
 	cout << "_______________________________________________\n\n";
 	return;
@@ -25,24 +25,20 @@ int get_ind(vector<pair<string, string>> &users, string &s){
 
 void psw(string &s){
 	s = "";
-	cout << "\b";
-	while(true){
+	for(bool b = false; true; b = true){
 		char c = getch();
 		if(c == 13)
 			return;
 		else if(c == '\b'){
 			if(s.size()){
 				s.pop_back();
-				cout << "\b\b";
+				cout << "\b \b";
 			}
 		}
 		else{
 			cout << c;
-			sleep(0.02);
-			cout << "\b ";
-			if(s.size())
-				cout << '\b';
-			cout << "*";
+			sleep(1);
+			cout << "\b*";
 			s.push_back(c);
 		}
 	}
@@ -159,31 +155,48 @@ void enter(){
 }
 
 void menu(){
-	//system("Color 0D");
-	//for(bool b = false; true; b = true){
+	char s;
+	for(bool b = false; true; b = true){
 		system("cls");
 		head();
 		cout << "Menu:" << '\n';
-		cout << "  1. Create a New Map" << '\n';
-		cout << "    - 1.1 Easy" << '\n';
-		cout << "    - 1.2 Hard" << '\n';
-		cout << "  2. Playground" << '\n';
-		cout << "    - 2.1 Choose from Existing Maps" << '\n';
-		cout << "    - 2.2 Import a Custom Map" << '\n';
-		cout << "  3. Solve a Maze" << '\n';
-		cout << "    - 3.1 Choose from Existing Maps" << '\n';
-		cout << "    - 3.2 Import a Custom Map" << '\n';
-		cout << "  4. History" << '\n';
-		cout << "  5. Leaderboard" << '\n';
-		cout << "  6. Exit" << '\n';
-	//}
+		if(!b || s == '1'){
+			cout << "  1. Create a New Map" << '\n';
+			if(b){
+				cout << "    - 1.1 Easy" << '\n';
+				cout << "    - 1.2 Hard" << '\n';
+			}
+		}
+		if(!b || s == '2'){
+			cout << "  2. Playground" << '\n';
+			if(b){
+				cout << "    - 2.1 Choose from Existing Maps" << '\n';
+				cout << "    - 2.2 Import a Custom Map" << '\n';
+			}
+		}
+		if(!b || s == '3'){
+			cout << "  3. Solve a Maze" << '\n';
+			if(b){
+				cout << "    - 3.1 Choose from Existing Maps" << '\n';
+				cout << "    - 3.2 Import a Custom Map" << '\n';
+			}
+		}
+		if(!b || s == '4')
+			cout << "  4. History" << '\n';
+		if(!b || s == '5')
+			cout << "  5. Leaderboard" << '\n';
+		if(!b || s == '6')
+			cout << "  6. Exit" << '\n';
+		cout << "----------\nIf you want to select an option press it's section number\n----------\n" << '\n';
+		if(!(s >= '1' && s <= '6') && b)
+			cout << "invalid input, try again" << '\n';
+		s = getch();
+	}
 	return;
 }
-// - : undo
+
 int main(){
-	system("Color 0A");
 	enter();
 	menu();
-	//forget();
 	return 0;
 }
