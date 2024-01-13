@@ -25,7 +25,7 @@ string user, user1;
 
 string hs(string &s){
 	ll bs[5] = {259, 258, 257, 256, 263};
-	ll md[5] = {1000000021, 1000000009, 1000000007, 998244353, 7333333313LL};
+	ll md[5] = {1000000021, 1000000009, 1000000007, 998244353, 2000000011};
 	ll sum = 0;
 	string res = "";
 	for(int k = 0; k < 5; ++k, res += to_string(sum), sum = 0)
@@ -45,7 +45,7 @@ void head(){
 	else{
 		cout << "_______________________________________________\n";
 		SetConsoleTextAttribute(col, 1);
-		cout << "  " << user1 << "\n";
+		cout << "~ " << user1 << "\n";
 		SetConsoleTextAttribute(col, 15);
 		cout << "_______________________________________________\n\n";
 	}
@@ -217,6 +217,7 @@ void enter(){
 		sing_in(users);
 	else
 		sing_up(users);
+	menu();
 	return;
 }
 
@@ -420,8 +421,13 @@ void menu(){
 		cout << "  6. Exit" << '\n';
 		if(s == "6")
 			SetConsoleTextAttribute(col, 15);
+		if(s == "7")
+			SetConsoleTextAttribute(col, 6);
+		cout << "  7. Sing out" << '\n';
+		if(s == "7")
+			SetConsoleTextAttribute(col, 15);
 		cout << "----------\nIf you want to select an option press it's section number\nAfter you set the section you want to go press enter key\n----------" << '\n';
-		if(!((s.size() == 1 && s[0] <= '6' && s[0] >= '1') || (s.size() == 3 && s[1] == '.' && s[2] <= '2' && s[2] >= '1' && s[0] <= '3' && s[0] >= '1')) && b){
+		if(!((s.size() == 1 && s[0] <= '7' && s[0] >= '1') || (s.size() == 3 && s[1] == '.' && s[2] <= '2' && s[2] >= '1' && s[0] <= '3' && s[0] >= '1')) && b){
 			cout << "invalid input, try again" << '\n';
 			p = false;
 		}
@@ -431,6 +437,12 @@ void menu(){
 		if(s1 != "")
 			s = s1;
 		else if(p){
+			if(s[0] == '7'){
+				user1 = "";
+				user = "";
+				enter();
+				return;
+			}
 			if(s[0] == '6')
 				exit(0);
 			if(s[0] == '5'){
@@ -460,6 +472,5 @@ void menu(){
 
 int main(){
 	enter();
-	menu();
 	return 0;
 }
