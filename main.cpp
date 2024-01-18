@@ -1,16 +1,40 @@
-#include<iostream>
-#include<fstream>
-#include<string>
-#include<vector>
-#include<math.h>
-#include<algorithm>
-#include<conio.h>
-#include<iomanip>
-#include<stdlib.h>
-#include<windows.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <math.h>
+#include <algorithm>
+#include <conio.h>
+#include <iomanip>
+#include <stdlib.h>
+#include "game_play.hpp"
 using namespace std;
 
-HANDLE col =  GetStdHandle(STD_OUTPUT_HANDLE);
+#define WINDOWS
+
+#ifdef WINDOWS
+    #include <windows.h>
+    HANDLE col =  GetStdHandle(STD_OUTPUT_HANDLE);
+#endif
+
+void c_col(int c){
+    #ifdef  WINDOWS
+        SetConsoleTextAttribute(col, c);
+    #else
+        //do something
+        return;
+    #endif
+    return;
+}
+
+void cls(){
+    #ifdef WINDOWS
+        system("cls");
+    #else
+        system("clear");
+    #endif
+    return;
+}
 
 using ll = long long;
 
@@ -18,7 +42,7 @@ void sing_up(vector<pair<string, string>> &users);
 void sing_in(vector<pair<string, string>> &users);
 void menu();
 void enter();
-void history(string &s);
+void history();
 void leaderboard();
 
 string user, user1;
@@ -27,28 +51,33 @@ string hs(string &s){
 	ll bs[5] = {259, 258, 257, 256, 263};
 	ll md[5] = {1000000021, 1000000009, 1000000007, 998244353, 2000000011};
 	ll sum = 0;
-	string res = "";
-	for(int k = 0; k < 5; ++k, res += to_string(sum), sum = 0)
+	string res = "", st;
+	for(int k = 0; k < 5; ++k, res += st, sum = 0)
 		for(int i = 0; i < s.size(); ++i){
 			sum = (sum * bs[k]) % md[k];
 			sum += s[i];
 			sum %= md[k];
+			st = to_string(sum);
+			for(int j = 0; j < 11 - st.size(); ++j)
+				res.push_back('0');
 		}
 	return res;
 }
 
 void head(){
-	cout << "MAZE-MAVERICK\n";
-	cout << "Created by Kasra Fouladi & Pouria Golsorkhi\n";
-	if(user1 == "")
-		cout << "_______________________________________________\n\n";
-	else{
-		cout << "_______________________________________________\n";
-		SetConsoleTextAttribute(col, 1);
+    cls();
+	c_col(10);
+	cout << "Maze Maverick\n";
+	cout << "Created by: Kasra Fouladi and Pouria Golsorkhi\n";
+	c_col(15);
+	cout << "_______________________________________________\n";
+	if(user.size()){
+		c_col(1);
 		cout << "~ " << user1 << "\n";
-		SetConsoleTextAttribute(col, 15);
-		cout << "_______________________________________________\n\n";
+		c_col(15);
+		cout << "_______________________________________________\n";
 	}
+	cout << '\n';
 	return;
 }
 
@@ -85,24 +114,25 @@ void psw(string &s){
 void sing_up(vector<pair<string, string>> &users){
 	string s1, s2, s3;
 	for(bool b = false; true; b = true){
-		system("cls");
 		head();
 		cout << "If you have an account and want to sing in write \"sing in\" and press enter" << '\n';
 		cout << "-------------------\n";
-		if(b)
+		if(b && s1 != "")
 			cout << "username is taken" << '\n';
+		if(b && s1 == "")
+			cout << "username can't be null" << '\n';
 		cout << "username: ";
+		flush(cout);
 		getline(cin, s1);
 		if(s1 == "sing in"){
 			sing_in(users);
 			return;
 		}
 		int ind = get_ind(users, s1);
-		if(ind == -1)
+		if(ind == -1 && s1 != "")
 			break;
 	}
 	for(bool b = false; true; b = true){
-		system("cls");
 		head();
 		cout << "If you have an account and want to sing in write \"sing in\" and press enter" << '\n';
 		cout << "-------------------\n";
@@ -112,17 +142,19 @@ void sing_up(vector<pair<string, string>> &users){
 		}
 		cout << "username: " << s1 << '\n';
 		cout << "password: ";
+		flush(cout);
 		psw(s2);
 		if(s2 == "sing in"){
 			sing_in(users);
-			return;	
+			return;
 		}
 		cout << '\n';
 		cout << "confirm passwaord: ";
+		flush(cout);
 		psw(s3);
 		if(s3 == "sing in"){
 			sing_in(users);
-			return;	
+			return;
 		}
 		if(s2 == s3)
 			break;
@@ -158,23 +190,24 @@ void sing_up(vector<pair<string, string>> &users){
 void sing_in(vector<pair<string, string>> &users){
 	string s1, s2;
 	for(bool b = false; true; b = true){
-		system("cls");
 		head();
 		cout << "If want to create account write \"sing up\" and press enter" << '\n';
 		cout << "-------------------\n";
 		if(b)
 			cout << "username or password is in correct" << '\n';
 		cout << "username: ";
+		flush(cout);
 		getline(cin, s1);
 		if(s1 == "sing up"){
 			sing_up(users);
-			return;	
+			return;
 		}
 		cout << "password: ";
+		flush(cout);
 		psw(s2);
 		if(s2 == "sing up"){
 			sing_up(users);
-			return;	
+			return;
 		}
 		int ind = get_ind(users, s1);
 		if(ind != -1 && users[ind].first == hs(s1) && users[ind].second == hs(s2)){
@@ -187,12 +220,19 @@ void sing_in(vector<pair<string, string>> &users){
 }
 
 void enter(){
+	ifstream sli("./accounts/saved_login.txt");
+	string l1;
+	int l2;
+	getline(sli, l1);
+	sli >> l2;
+	if(l1.size() && time(0) - l2 <= 7 * 60 * 24 * 60){
+		user1 = l1, user = hs(user1);
+		menu();
+		return;
+	}
+	sli.close();
 	ifstream us("./accounts/users.txt");
 	ifstream ps("./accounts/pass.txt");
-	if(!us.is_open() || !ps.is_open()){
-		cerr << "Can't find data" << '\n';
-		exit(1);
-	}
 	vector<pair<string, string>> users;
 	string s;
 	while(getline(us, s)){
@@ -204,11 +244,10 @@ void enter(){
 	us.close();
 	ps.close();
 	for(bool b = false; true; b = true){
-		system("cls");
 		head();
 		cout << "Have an account? (y/n)" << '\n';
 		if(b)
-			cout << "invalid input, try again" << '\n';
+			cout << "invalid input, try again" << endl;
 		getline(cin, s);
 		if(s == "y" || s == "n")
 			break;
@@ -217,14 +256,20 @@ void enter(){
 		sing_in(users);
 	else
 		sing_up(users);
+    cout << "\nDo you want to save your login for a week? (1:yes, any other keys:no)";
+    char c = getch();
+    if(c == '1'){
+    	ofstream slo("./accounts/saved_login.txt");
+    	slo << user1 << '\n';
+    	slo << time(0) << '\n';
+	}
 	menu();
 	return;
 }
 
-void history(string &s){
-	string s1;
-	ifstream games("./accounts/games" + s + ".txt");
-	system("cls");
+void history(){
+    string s1;
+	ifstream games("./accounts/games" + user + ".txt");
 	head();
 	vector<string> act;
 	while(getline(games, s1))
@@ -232,63 +277,62 @@ void history(string &s){
 	cout << "Your history:" << '\n';
 	cout << "__________________________________________________________________________________" << '\n';
 	cout << "|";
-	SetConsoleTextAttribute(col, 9);
+	c_col(9);
 	cout << "Time";
-	SetConsoleTextAttribute(col, 15);
+	c_col(15);
 	cout << "               |";
-	SetConsoleTextAttribute(col, 9);
+	c_col(9);
 	cout << "Map Name";
-	SetConsoleTextAttribute(col, 15);
+	c_col(15);
 	cout << "                  |";
-	SetConsoleTextAttribute(col, 9);
+	c_col(9);
 	cout << "Solved(Y/N)";
-	SetConsoleTextAttribute(col, 15);
+	c_col(15);
 	cout << "|";
-	SetConsoleTextAttribute(col, 9);
+	c_col(9);
 	cout << "Timer";
-	SetConsoleTextAttribute(col, 15);
+	c_col(15);
 	cout << " |";
-	SetConsoleTextAttribute(col, 9);
+	c_col(9);
 	cout << "Rating Changes";
-	SetConsoleTextAttribute(col, 15);
+	c_col(15);
 	cout << "|" << '\n';
 	for(int i = 0; true; ++i){
 		cout << "|___________________|__________________________|___________|______|______________|" << '\n';
 		if(i == act.size())
 			break;
 		cout << "|";
-		SetConsoleTextAttribute(col, 10);
+		c_col(10);
 		cout << act[i];
-		SetConsoleTextAttribute(col, 15);
+		c_col(15);
 		cout << "|";
-		SetConsoleTextAttribute(col, 10);
+		c_col(10);
 		++i;
 		cout << act[i];
-		SetConsoleTextAttribute(col, 15);
+		c_col(15);
 		cout << "|";
-		SetConsoleTextAttribute(col, 10);
+		c_col(10);
 		++i;
 		cout << act[i];
-		SetConsoleTextAttribute(col, 15);
+		c_col(15);
 		cout << "          |";
-		SetConsoleTextAttribute(col, 10);
+		c_col(10);
 		++i;
 		cout << act[i];
 		for(int j = 0; j < 6 - act[i].size(); ++j)
 			cout << " ";
-		SetConsoleTextAttribute(col, 15);
+		c_col(15);
 		cout << "|";
-		SetConsoleTextAttribute(col, 10);
+		c_col(10);
 		++i;
 		cout << act[i];
 		for(int j = 0; j < 13 - act[i].size(); ++j)
 			cout << " ";
-		SetConsoleTextAttribute(col, 15);
+		c_col(15);
 		cout << "|" << '\n';
 	}
-	cout << "\nTo back into the menu press any key ";
+	cout << "\nTo back into the menu press any key" << endl;
 	getch();
-	menu();
 	return;
 }
 
@@ -304,21 +348,20 @@ void leaderboard(){
 		standing.push_back({s1, num});
 	}
 	sort(standing.begin(), standing.end(), [&](pair<string, int> e1, pair<string, int> e2){return e1.second > e2.second;});
-	system("cls");
 	head();
 	cout << "_______________________________________" << '\n';
 	cout << "|";
-	SetConsoleTextAttribute(col, 9);
+	c_col(9);
 	cout << "Ranking";
-	SetConsoleTextAttribute(col, 15);
+	c_col(15);
 	cout << "|";
-	SetConsoleTextAttribute(col, 9);
+	c_col(9);
 	cout << "Handle                ";
-	SetConsoleTextAttribute(col, 15);
+	c_col(15);
 	cout << "|";
-	SetConsoleTextAttribute(col, 9);
+	c_col(9);
 	cout << "Rating";
-	SetConsoleTextAttribute(col, 15);
+	c_col(15);
 	cout << "|" << '\n';
 	for(int i = 0; true; ++i){
 		cout << "|_______|______________________|______|" << '\n';
@@ -326,109 +369,107 @@ void leaderboard(){
 			break;
 		int l;
 		cout << "|";
-		SetConsoleTextAttribute(col, 10);
+		c_col(10);
 		cout << "#" << i + 1;
 		l = ceil(log10(i + 2));
 		for(int j = 0; j < 6 - l; ++j)
 			cout << " ";
-		SetConsoleTextAttribute(col, 15);
+		c_col(15);
 		cout << "|";
-		SetConsoleTextAttribute(col, 10);
+		c_col(10);
 		cout << standing[i].first;
 		for(int j = 0; j < 22 - standing[i].first.size(); ++j)
 			cout << " ";
-		SetConsoleTextAttribute(col, 15);
+		c_col(15);
 		cout << "|";
-		SetConsoleTextAttribute(col, 10);
+		c_col(10);
 		cout << standing[i].second;
 		l = ceil(log10(standing[i].second + 1));
 		l = max(1, l);
 		for(int j = 0; j < 6 - l; ++j)
 			cout << " ";
-		SetConsoleTextAttribute(col, 15);
+		c_col(15);
 		cout << "|" << '\n';
 	}
-	cout << "\nTo back into the menu press any key ";
+	cout << "\nTo back into the menu press any key" << endl;
 	getch();
-	menu();
 	return;
 }
 
 void menu(){
-	bool p = true;
+	bool p = true, back = false;
 	string s = "1", s1 = ".";
 	for(bool b = false; true; b = true){
-		system("cls");
 		head();
 		cout << "Menu:" << '\n';
 		if(s[0] == '1')
-			SetConsoleTextAttribute(col, 6);
+			c_col(6);
 		cout << "  1. Create New Map" << '\n';
 		if(s == "1.1")
-			SetConsoleTextAttribute(col, 8);
+			c_col(8);
 		cout << "    - 1.1 Easy" << '\n';
 		if(s == "1.1")
-			SetConsoleTextAttribute(col, 6);
+			c_col(6);
 		if(s == "1.2")
-			SetConsoleTextAttribute(col, 8);
+			c_col(8);
 		cout << "    - 1.2 Hard" << '\n';
 		if(s == "1.2")
-			SetConsoleTextAttribute(col, 6);
+			c_col(6);
 		if(s[0] == '1')
-			SetConsoleTextAttribute(col, 15);
+			c_col(15);
 		if(s[0] == '2')
-			SetConsoleTextAttribute(col, 6);
+			c_col(6);
 		cout << "  2. Playground" << '\n';
 		if(s == "2.1")
-			SetConsoleTextAttribute(col, 8);
+			c_col(8);
 		cout << "    - 2.1 Choose from Existing Maps" << '\n';
 		if(s == "2.1")
-			SetConsoleTextAttribute(col, 6);
+			c_col(6);
 		if(s == "2.2")
-			SetConsoleTextAttribute(col, 8);
+			c_col(8);
 		cout << "    - 2.2 Import a Custom Map" << '\n';
 		if(s == "2.2")
-			SetConsoleTextAttribute(col, 6);
+			c_col(6);
 		if(s[0] == '2')
-			SetConsoleTextAttribute(col, 15);
+			c_col(15);
 		if(s[0] == '3')
-			SetConsoleTextAttribute(col, 6);
+			c_col(6);
 		cout << "  3. Solve a Maze" << '\n';
 		if(s == "3.1")
-			SetConsoleTextAttribute(col, 8);
+			c_col(8);
 		cout << "    - 3.1 Choose from Existing Maps" << '\n';
 		if(s == "3.1")
-			SetConsoleTextAttribute(col, 6);
+			c_col(6);
 		if(s == "3.2")
-			SetConsoleTextAttribute(col, 8);
+			c_col(8);
 		cout << "    - 3.2 Import a Custom Map" << '\n';
 		if(s == "3.2")
-			SetConsoleTextAttribute(col, 6);
+			c_col(6);
 		if(s[0] == '3')
-			SetConsoleTextAttribute(col, 15);
+			c_col(15);
 		if(s == "4")
-			SetConsoleTextAttribute(col, 6);
+			c_col(6);
 		cout << "  4. History" << '\n';
 		if(s == "4")
-			SetConsoleTextAttribute(col, 15);
+			c_col(15);
 		if(s == "5")
-			SetConsoleTextAttribute(col, 6);
+			c_col(6);
 		cout << "  5. Leaderboard" << '\n';
 		if(s == "5")
-			SetConsoleTextAttribute(col, 15);
+			c_col(15);
 		if(s == "6")
-			SetConsoleTextAttribute(col, 6);
+			c_col(6);
 		cout << "  6. Exit" << '\n';
 		if(s == "6")
-			SetConsoleTextAttribute(col, 15);
+			c_col(15);
 		if(s == "7")
-			SetConsoleTextAttribute(col, 6);
+			c_col(6);
 		cout << "  7. Sing out" << '\n';
 		if(s == "7")
-			SetConsoleTextAttribute(col, 15);
+			c_col(15);
 		cout << "----------\nIf you want to select an option press it's section number\nAfter you set the section you want to go press enter key\n----------" << '\n';
 		if(!((s.size() == 1 && s[0] <= '7' && s[0] >= '1') || (s.size() == 3 && s[1] == '.' && s[2] <= '2' && s[2] >= '1' && s[0] <= '3' && s[0] >= '1')) && b){
-			cout << "invalid input, try again" << '\n';
+			cout << "invalid input, try again" << endl;
 			p = false;
 		}
 		else
@@ -436,36 +477,63 @@ void menu(){
 		getline(cin, s1);
 		if(s1 != "")
 			s = s1;
-		else if(p){
+		else if(p && !back){
 			if(s[0] == '7'){
+				ofstream slo("./accounts/saved_login.txt");
+				slo << "" << '\n';
+				slo << -1 << '\n';
+				slo.close();
 				user1 = "";
 				user = "";
 				enter();
 				return;
 			}
-			if(s[0] == '6')
-				exit(0);
+			if(s[0] == '6'){
+                head();
+                cout << "Are you sure you want to exit? (n:no, any other key:yes)" << '\n';
+                char c = getch();
+                if(c == 'n')
+                    continue;
+                else{
+                    head();
+                    cout << "Have a nice day!" << '\n';
+                    exit(0);
+                }
+			}
 			if(s[0] == '5'){
 				leaderboard();
-				return;
+				s = "5";
+				s1 = ".";
+				back = true;
+				continue;
 			}
 			if(s[0] == '4'){
-				history(user);
-				return;
+				history();
+				s = "4";
+				s1 = ".";
+				back = true;
+				continue;
 			}
 			if(s[0] == '3'){
-				//play(s);
-				return;
+				//gameplay game;
+				//game.open(user, user1, s);
+				//s1 = ".";
+				back = true;
+				continue;
 			}
 			if(s[0] == '2'){
-				//playgr(s);
-				return;
+				gameplay game;
+				game.open(user, user1, s);
+				s1 = ".";
+				back = true;
+				continue;
 			}
 			if(s[0] == '1'){
 				//createmp(s);
-				return;
+				continue;
 			}
 		}
+		back = false;
 	}
 	return;
 }
