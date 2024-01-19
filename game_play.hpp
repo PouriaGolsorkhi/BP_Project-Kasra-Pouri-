@@ -1,12 +1,11 @@
-#include<iostream>
-#include<vector>
-#include<string>
-#include<time.h>
-#include<fstream>
-#include<stdlib.h>
-#include<conio.h>
-#include<math.h>
-#include<algorithm>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <time.h>
+#include <fstream>
+#include <conio.h>
+#include <math.h>
+#include <algorithm>
 using namespace std;
 
 #define WINDOWS
@@ -259,8 +258,6 @@ struct gameplay{
 		name = s;
 		mp.close();
 		print_map();
-		cout << "press any key to continue ";
-		getch();
 		return;
 	}
 	

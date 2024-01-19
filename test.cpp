@@ -9,6 +9,13 @@ char* date(){
 
 int main(){
 	//cout << date() << '\n';
+	time_t t = time(0);
+	for(int i = 0; i < 1000 * 1000 * 1000; ++i)
+		int x;
+	cout << (char)7;
+	cout << "done! in" << '\n';
+	cout << time(0) - t << " secondes" << '\n';
+	return 0;
 	ifstream f("./maps/mapnames.txt");
 	vector<string> v(3);
 	getline(f, v[0]);

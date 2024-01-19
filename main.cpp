@@ -5,8 +5,6 @@
 #include <math.h>
 #include <algorithm>
 #include <conio.h>
-#include <iomanip>
-#include <stdlib.h>
 #include "game_play.hpp"
 using namespace std;
 
@@ -14,6 +12,7 @@ using namespace std;
 
 #ifdef WINDOWS
     #include <windows.h>
+    #include "kasra_chess.hpp"
     HANDLE col =  GetStdHandle(STD_OUTPUT_HANDLE);
 #endif
 
@@ -475,8 +474,13 @@ void menu(){
 		cout << "  7. Sing out" << '\n';
 		if(s == "7")
 			c_col(15);
+		if(s == "8")
+			c_col(6);
+		cout << "  8. Chess" << endl;
+		if(s == "8")
+			c_col(15);
 		cout << "----------\nIf you want to select an option press it's section number\nAfter you set the section you want to go press enter key\n----------" << '\n';
-		if(!((s.size() == 1 && s[0] <= '7' && s[0] >= '1') || (s.size() == 3 && s[1] == '.' && s[2] <= '2' && s[2] >= '1' && s[0] <= '3' && s[0] >= '1')) && b){
+		if(!((s.size() == 1 && s[0] <= '8' && s[0] >= '1') || (s.size() == 3 && s[1] == '.' && s[2] <= '2' && s[2] >= '1' && s[0] <= '3' && s[0] >= '1')) && b){
 			cout << "invalid input, try again" << endl;
 			p = false;
 		}
@@ -486,6 +490,14 @@ void menu(){
 		if(s1 != "")
 			s = s1;
 		else if(p && !back){
+			if(s[0] == '8'){
+				chess match;
+				match.mychess(user1, user);
+				s = "8";
+				s1 = ".";
+				back = true;
+				continue;
+			}
 			if(s[0] == '7'){
 				ofstream slo("./accounts/saved_login.txt");
 				slo << "" << '\n';
