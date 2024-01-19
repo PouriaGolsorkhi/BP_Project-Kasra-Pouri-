@@ -4,32 +4,66 @@
 #include <string>
 #include <stdlib.h>
 #include <conio.h>
-#include <windows.h>
 using namespace std;
+
+#define WINDOWS
+
+#ifdef WINDOWS
+	#include <windows.h>
+#endif
 
 class chess{
 	private:
-
-	HANDLE color = GetStdHandle(STD_OUTPUT_HANDLE);
-
+	
+	#ifdef WINDOWS
+		HANDLE col = GetStdHandle(STD_OUTPUT_HANDLE);
+	#endif
+	
 	string user_, user_1;
 
 	bool ext = false;
 
+	char* date(){
+		time_t t = time(0);
+		char* dt = ctime(&t);
+		return dt;
+	}
+
+	void c_col(int c){
+    	#ifdef  WINDOWS
+        	SetConsoleTextAttribute(col, c);
+	    #else
+    	    //do something
+        	return;
+	    #endif
+    	return;
+	}
+
+	void cls(){
+    	#ifdef WINDOWS
+        	system("cls");
+	    #else
+    	    system("clear");
+    	#endif
+    	return;
+	}
+
 	void head_(){
-		system("CLS");
-		SetConsoleTextAttribute(color, 10);
+		cls();
+		c_col(10);
 		cout << "Chess\n";
 		cout << "Created by Kasra Fouladi and Pouria Golsorkhi\n";
-		SetConsoleTextAttribute(color, 15);
+		c_col(15);
 		cout << "_______________________________________________\n";
 		if(user_1.size()){
-			SetConsoleTextAttribute(color, 1);
+			c_col(1);
 			cout << "~ " << user_1 << "\n";
-			SetConsoleTextAttribute(color, 15);
+			c_col(15);
 			cout << "_______________________________________________\n";
 		}
-		cout << '\n';
+		c_col(14);
+		cout << "Local time: " << date() << '\n';
+		c_col(15);
 		return;
 	}
 
@@ -92,41 +126,39 @@ class chess{
     	for(int i = 0; i < 2; ++i){
         	cout << "Player" << i + 1 << "'s pawns: ";
         	if(i)
-        		SetConsoleTextAttribute(color, 8);
+        		c_col(8);
         	else
-        		SetConsoleTextAttribute(color, 6);
+        		c_col(6);
         	for(int j = 0; j < killed[i].size(); ++j)
             	cout << (char)toupper(killed[i][j]) << " ";
-        	SetConsoleTextAttribute(color, 15);
+        	c_col(15);
         	cout << '\n';
     	}
     	cout << '\n' << '\n';
 		cout << "Roles: king = K, queen = Q, bishop = B, knight = H, rook = R, solider = S;" << '\n';
-		//cout << '\n' << "  -----------------" << '\n';
 		cout << '\n' << "  __________________________" << '\n';
-		//cout << '\n';
 		for(int i = 0; i < 8; ++i){
         	cout << "  |";
     	    for(int j = 0; j < 8; ++j){
-	        	SetConsoleTextAttribute(color, ((i ^ j) & 1 ? 0 : 16 * 14) + 0);
+	        	c_col((i ^ j) & 1 ? 0 : 16 * 14);
         		cout << "   ";
 			}
-			SetConsoleTextAttribute(color, 15);
+			c_col(15);
 			cout << "|" << '\n';
 			cout << 8 - i << " |";
 			for(int j = 0; j < 8; ++j){
 				if(board[i][j] <= 'z' && 'a' <= board[i][j])
-        			SetConsoleTextAttribute(color, ((i ^ j) & 1 ? 0 : 16 * 14) + 8);
+        			c_col(((i ^ j) & 1 ? 0 : 16 * 14) + 8);
         		else if(board[i][j] <= 'Z' && 'A' <= board[i][j])
-    	    		SetConsoleTextAttribute(color, ((i ^ j) & 1 ? 0 : 16 * 14) + 6);
+    	    		c_col(((i ^ j) & 1 ? 0 : 16 * 14) + 6);
 	        	else
-        			SetConsoleTextAttribute(color, ((i ^ j) & 1 ? 0 : 16 * 14) + 0);
+        			c_col((i ^ j) & 1 ? 0 : 16 * 14);
 				cout << " " << (char)toupper(board[i][j]) << " ";
 			}
-			SetConsoleTextAttribute(color, 15);
+			c_col(15);
 			cout << "|" << '\n';
 		}
-		SetConsoleTextAttribute(color, 15);
+		c_col(15);
 		cout << "  __________________________" << '\n';
     	cout << "    A  B  C  D  E  F  G  H" << '\n' << endl;
     	if(!sen && time(0) - timer > T){
@@ -536,7 +568,6 @@ class chess{
 	public:
 
 	void mychess(string u1, string u){
-		SetConsoleTextAttribute(color, 15);
 		user_ = u;
 		user_1 = u1;
     	head_();

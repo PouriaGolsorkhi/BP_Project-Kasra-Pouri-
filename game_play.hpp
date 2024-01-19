@@ -21,7 +21,7 @@ struct gameplay{
 		HANDLE col =  GetStdHandle(STD_OUTPUT_HANDLE);
 	#endif
 	
-	string user, user1, name, creator, diff;
+	string user, user1, name, creator, diff, mode;
 
 	bool ext = false;
 	
@@ -50,6 +50,12 @@ struct gameplay{
     	return;
 	}
 
+	char* date(){
+		time_t t = time(0);
+		char* dt = ctime(&t);
+		return dt;
+	}
+
 	void head(){
     	cls();
 		c_col(10);
@@ -63,7 +69,9 @@ struct gameplay{
 			c_col(15);
 			cout << "_______________________________________________\n";
 		}
-		cout << '\n';
+		c_col(14);
+		cout << "Local time: " << date() << '\n';
+		c_col(15);
 		return;
 	}
 
@@ -73,7 +81,7 @@ struct gameplay{
 		c_col(1);
 		cout << creator;
 		c_col(15);
-		cout << ":\nHeight = " << n << ", Width = " << m << ", Path lenght = " << l << "\n\n";
+		cout << " " << mode << ":\nHeight = " << n << ", Width = " << m << ", Path lenght = " << l << "\n\n";
 		cout << "difficulty: " << diff << "\n\n";
 		for(int _ = 0; _ < m * (sp + 1); ++_)
 			cout << '_';
@@ -106,14 +114,13 @@ struct gameplay{
 		cout << "t: timer\n";
 		cout << "q: quit(and show soloution)\n";
 		cout << "-------------------------\n";
-		cout << "press any key to continue ";
-		getch();
 		return;
 	}
 	
 	void load_data(ifstream &mp){
-		getline(mp,  creator);
+		getline(mp, creator);
 		getline(mp, name);
+		getline(mp, mode);
 		mp >> diff;
 		mp >> n >> m >> l;
 		for(int i = 0; i < n; ++i){
@@ -162,6 +169,8 @@ struct gameplay{
 			load_data(mp);
 			mp.close();
 			print_map();
+			cout << "press any key to continue ";
+			getch();
 			b = false;
 		}
 		return;
@@ -171,6 +180,8 @@ struct gameplay{
 		head();
 		mp << user1 << '\n';
 		mp << mapn << '\n';
+		mode = "(manual)";
+		mp << "(manual)" << '\n';
 		cout << "enter the height and width of maze and the path lenght in this order(height withd path lenght)" << '\n';
 		cin >> n >> m >> l;
 		if(n <= 3 && l == n + m - 1){
@@ -261,6 +272,8 @@ struct gameplay{
 		name = s;
 		mp.close();
 		print_map();
+		cout << "press any key to continue ";
+		getch();
 		return;
 	}
 	
@@ -270,7 +283,7 @@ struct gameplay{
 			if(inpt.size() == 1){
 				for(bool b = false; true; b = true){
 					head();
-					cout << "If you want to solve a maze back to menu and Choose '\"3. Solve a Maze\"\n\n";
+					cout << "If you want to solve a maze back to menu and Choose \"3. Solve a Maze\"\n\n";
 					c_col(6);
 					cout << "2. Playground" << '\n';
 					cout << "  - 2.1 Choose from Existing Maps" << '\n';

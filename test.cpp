@@ -8,6 +8,7 @@ char* date(){
 }
 
 int main(){
+	return 0;
 	//cout << date() << '\n';
 	time_t t = time(0);
 	for(int i = 0; i < 1000 * 1000 * 1000; ++i)

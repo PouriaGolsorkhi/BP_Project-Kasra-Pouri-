@@ -63,6 +63,12 @@ string hs(string &s){
 	return res;
 }
 
+char* date(){
+	time_t t = time(0);
+	char* dt = ctime(&t);
+	return dt;
+}
+
 void head(){
     cls();
 	c_col(10);
@@ -76,7 +82,9 @@ void head(){
 		c_col(15);
 		cout << "_______________________________________________\n";
 	}
-	cout << '\n';
+	c_col(14);
+	cout << "Local time: " << date() << "\n";
+	c_col(15);
 	return;
 }
 
