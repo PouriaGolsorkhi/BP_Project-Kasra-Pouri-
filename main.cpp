@@ -12,7 +12,7 @@ using namespace std;
 
 #ifdef WINDOWS
     #include <windows.h>
-    #include "kasra_chess.hpp"
+    #include "chess.hpp"
     HANDLE col =  GetStdHandle(STD_OUTPUT_HANDLE);
 #endif
 
