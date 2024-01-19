@@ -72,9 +72,9 @@ struct gameplay{
 		head();
 		cout << name << " created by ";
 		c_col(1);
-		cout << creator << '\n';
+		cout << creator;
 		c_col(15);
-		cout << "Height = " << n << ", Width = " << m << ", Path lenght = " << l << "\n\n";
+		cout << ":\nHeight = " << n << ", Width = " << m << ", Path lenght = " << l << "\n\n";
 		cout << "difficulty: " << diff << "\n\n";
 		for(int _ = 0; _ < m * (sp + 1); ++_)
 			cout << '_';
@@ -115,8 +115,8 @@ struct gameplay{
 	void load_data(ifstream &mp){
 		getline(mp,  creator);
 		getline(mp, name);
-		mp >> n >> m >> l;
 		mp >> diff;
+		mp >> n >> m >> l;
 		for(int i = 0; i < n; ++i){
 			maze.push_back({}), mark.push_back({});
 			for(int j = 0; j < m; ++j){
@@ -270,6 +270,7 @@ struct gameplay{
 			if(inpt.size() == 1){
 				for(bool b = false; true; b = true){
 					head();
+					cout << "If you want to solve a maze back to menu and Choose '\"3. Solve a Maze\"\n\n";
 					c_col(6);
 					cout << "2. Playground" << '\n';
 					cout << "  - 2.1 Choose from Existing Maps" << '\n';
