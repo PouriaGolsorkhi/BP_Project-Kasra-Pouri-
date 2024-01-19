@@ -22,7 +22,7 @@ struct gameplay{
 		HANDLE col =  GetStdHandle(STD_OUTPUT_HANDLE);
 	#endif
 	
-	string user, user1, name, creator;
+	string user, user1, name, creator, diff;
 
 	bool ext = false;
 	
@@ -75,6 +75,7 @@ struct gameplay{
 		cout << creator << '\n';
 		c_col(15);
 		cout << "Height = " << n << ", Width = " << m << ", Path lenght = " << l << "\n\n";
+		cout << "difficulty: " << diff << "\n\n";
 		for(int _ = 0; _ < m * (sp + 1); ++_)
 			cout << '_';
 		cout << '_';
@@ -82,13 +83,13 @@ struct gameplay{
 		for(int i = 0; i < n; ++i){
 			cout << "|";
 			for(int j = 0; j < m; ++j){
-				for(int k = 0; k < sp - max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) - (int)(maze[i][j] < 0); ++k)
-					cout << " ";
 				if(maze[i][j] && mark[i][j])
 					c_col(1);
 				cout << maze[i][j];
 				if(maze[i][j] && mark[i][j])
 					c_col(15);
+				for(int k = 0; k < sp - max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) - (int)(maze[i][j] < 0); ++k)
+					cout << " ";
 				cout << "|";
 			}
 			cout << '\n';
@@ -115,6 +116,7 @@ struct gameplay{
 		getline(mp,  creator);
 		getline(mp, name);
 		mp >> n >> m >> l;
+		mp >> diff;
 		for(int i = 0; i < n; ++i){
 			maze.push_back({}), mark.push_back({});
 			for(int j = 0; j < m; ++j){
@@ -169,8 +171,16 @@ struct gameplay{
 		mp << mapn << '\n';
 		cout << "enter the height and width of maze and the path lenght in this order(height withd path lenght)" << '\n';
 		cin >> n >> m >> l;
+		if(n == 3 && l == n + m - 1){
+			mp << "Easy" << '\n';
+			diff = "Easy";
+		}
+		else{
+			mp << "Hard" << '\n';
+			diff = "Hard";
+		}
 		mp << n << " " << m << " " << l << '\n';
-		cout << "-----------------\nNow you have to fill the maze cells\n";
+		cout << "Now you have to fill the maze cells\n";
 		maze.push_back({}), mark.push_back({});
 		for(int i = 0; i < n; ++i){
 			maze.push_back({}), mark.push_back({});
@@ -203,8 +213,10 @@ struct gameplay{
 		while(true){
 			head();
 			cout << "if you're opinion changed you can write b and press enter key" << '\n';
-			cout << "Map's name: \n";
-			getline(cin, s);
+			cout << "Map's name: ";
+			s = "";
+			while(!s.size())
+				getline(cin, s);
 			if(s == "b"){
 				ext = true;
 				return;
@@ -233,18 +245,22 @@ struct gameplay{
 		}
 		if(!p)
 			mapname.push_back(s);
+		cout << "press (b:if you want to back, any other key:to continue)\n";
+		if(getch() == 'b')
+			return;
 		reverse(mapname.begin(), mapname.end());
 		ofstream mapls_("./maps/mapnames.txt");
 		for(auto &e: mapname)
 			mapls_ << e << '\n';
 		mapls_.close();
-		cout << "press any key to continue ";
-		getch();
 		ofstream mp("./maps/" + s + ".txt");
 		upload_data(mp, s);
 		creator = user1;
 		name = s;
 		mp.close();
+		print_map();
+		cout << "press any key to continue ";
+		getch();
 		return;
 	}
 	
@@ -276,7 +292,6 @@ struct gameplay{
 				sen1();
 				inpt.pop_back();
 				inpt.pop_back();
-				ext = false;
 				continue;
 			}
 			else{

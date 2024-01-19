@@ -275,12 +275,12 @@ void history(){
 	while(getline(games, s1))
 		act.push_back(s1);
 	cout << "Your history:" << '\n';
-	cout << "__________________________________________________________________________________" << '\n';
+	cout << "___________________________________________________________________________________________" << '\n';
 	cout << "|";
 	c_col(9);
 	cout << "Time";
 	c_col(15);
-	cout << "               |";
+	cout << "                    |";
 	c_col(9);
 	cout << "Map Name";
 	c_col(15);
@@ -290,15 +290,15 @@ void history(){
 	c_col(15);
 	cout << "|";
 	c_col(9);
-	cout << "Timer";
+	cout << "Timer(sec)";
 	c_col(15);
-	cout << " |";
+	cout << "|";
 	c_col(9);
 	cout << "Rating Changes";
 	c_col(15);
 	cout << "|" << '\n';
 	for(int i = 0; true; ++i){
-		cout << "|___________________|__________________________|___________|______|______________|" << '\n';
+		cout << "|________________________|__________________________|___________|__________|______________|" << '\n';
 		if(i == act.size())
 			break;
 		cout << "|";
@@ -308,25 +308,33 @@ void history(){
 		cout << "|";
 		c_col(10);
 		++i;
+		for(int j = 0; j < 26; ++j){
+			if(j < act[i].size())
+				cout << act[i][j];
+			else
+				cout << " ";
+		}
+		c_col(15);
+		cout << "|     ";
+		c_col(10);
+		++i;
 		cout << act[i];
+		c_col(15);
+		cout << "     |  ";
+		c_col(10);
+		++i;
+		for(int j = 0; j < 10; ++j){
+			if(j < act[i].size())
+				cout << act[i][j];
+			else
+				cout << " ";
+		}
 		c_col(15);
 		cout << "|";
 		c_col(10);
 		++i;
 		cout << act[i];
-		c_col(15);
-		cout << "          |";
-		c_col(10);
-		++i;
-		cout << act[i];
-		for(int j = 0; j < 6 - act[i].size(); ++j)
-			cout << " ";
-		c_col(15);
-		cout << "|";
-		c_col(10);
-		++i;
-		cout << act[i];
-		for(int j = 0; j < 13 - act[i].size(); ++j)
+		for(int j = 0; j < 13 - (int)act[i].size(); ++j)
 			cout << " ";
 		c_col(15);
 		cout << "|" << '\n';
