@@ -454,30 +454,30 @@ void menu(){
 			c_col(6);
 		if(s[0] == '3')
 			c_col(15);
-		if(s == "4")
+		if(s[0] == '4')
 			c_col(6);
 		cout << "  4. History" << '\n';
-		if(s == "4")
+		if(s[0] == '4')
 			c_col(15);
-		if(s == "5")
+		if(s[0] == '5')
 			c_col(6);
 		cout << "  5. Leaderboard" << '\n';
-		if(s == "5")
+		if(s[0] == '5')
 			c_col(15);
-		if(s == "6")
+		if(s[0] == '6')
 			c_col(6);
 		cout << "  6. Exit" << '\n';
-		if(s == "6")
+		if(s[0] == '6')
 			c_col(15);
-		if(s == "7")
+		if(s[0] == '7')
 			c_col(6);
 		cout << "  7. Sing out" << '\n';
-		if(s == "7")
+		if(s == '7')
 			c_col(15);
-		if(s == "8")
+		if(s == '8')
 			c_col(6);
 		cout << "  8. Chess" << endl;
-		if(s == "8")
+		if(s[0] == '8')
 			c_col(15);
 		cout << "----------\nIf you want to select an option press it's section number\nAfter you set the section you want to go press enter key\n----------" << '\n';
 		if(!((s.size() == 1 && s[0] <= '8' && s[0] >= '1') || (s.size() == 3 && s[1] == '.' && s[2] <= '2' && s[2] >= '1' && s[0] <= '3' && s[0] >= '1')) && b){
