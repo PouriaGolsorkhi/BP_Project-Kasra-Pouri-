@@ -223,7 +223,7 @@ struct gameplay{
 				ext = true;
 				return;
 			}
-			cout << '\n';-i
+			cout << '\n';
 			if(maplist.size() && binary_search(maplist.begin(), maplist.end(), s)){
 				cout << "this map name is already exists do you want to replace it? (y:yes/any other key:no)" << '\n';
 				char c = getch();

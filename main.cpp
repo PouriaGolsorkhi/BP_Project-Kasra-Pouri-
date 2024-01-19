@@ -472,9 +472,9 @@ void menu(){
 		if(s[0] == '7')
 			c_col(6);
 		cout << "  7. Sing out" << '\n';
-		if(s == '7')
+		if(s[0] == '7')
 			c_col(15);
-		if(s == '8')
+		if(s[0] == '8')
 			c_col(6);
 		cout << "  8. Chess" << endl;
 		if(s[0] == '8')
