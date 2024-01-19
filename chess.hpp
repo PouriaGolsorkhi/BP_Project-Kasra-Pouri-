@@ -161,16 +161,19 @@ class chess{
 		c_col(15);
 		cout << "  __________________________" << '\n';
     	cout << "    A  B  C  D  E  F  G  H" << '\n' << endl;
+    	cout << "\n--------------\nif you want to quit type i-quit\n--------------\n" << endl;
     	if(!sen && time(0) - timer > T){
        		timer = time(0);
         	cout << "To continue enter an integer(Its bot v bot mode's option): " << endl;
         	string x;
     	    cin >> x;
+    	    if(x == "i-quit"){
+    	    	ext = true;
+    	    	return;
+			}
 	        if(x == "ramz")
         	    c_role();
     	}
-	    else
-			cout << "\n--------------\nif you want to quit type i-quit\n--------------\n" << endl;	
 		return;
 	}
 
@@ -351,6 +354,10 @@ class chess{
     	        string s = choice[(rand() + timer) % 4];
 	            if(sen & (1 << p))
                 	cin >> s;
+                if(s == "i-quit"){
+                	ext = true;
+                	return;
+                }
             	if(s[0] > 'Z')
         	        s[0] -= 32;
     	        while(true){

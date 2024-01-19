@@ -203,14 +203,12 @@ void sing_in(vector<pair<string, string>> &users){
 		if(b)
 			cout << "username or password is in correct" << '\n';
 		cout << "username: ";
-		flush(cout);
 		getline(cin, s1);
 		if(s1 == "sing up"){
 			sing_up(users);
 			return;
 		}
 		cout << "password: ";
-		flush(cout);
 		psw(s2);
 		if(s2 == "sing up"){
 			sing_up(users);
