@@ -184,6 +184,16 @@ struct gameplay{
 		return;
 	}
 	
+	void gen(ofstream &mp){
+		// masir javab
+		// por kardan
+		// rikhtan too file
+		for(int i = 0; i < n; ++i, cout << '\n')
+			for(int j = 0; j < m; ++j)
+				mp << maze[i][j] << " ";
+		return;
+	}
+	
 	void upload_data(ofstream &mp, string mapn, char c = '*'){
 		head();
 		mp << user1 << '\n';
@@ -217,6 +227,10 @@ struct gameplay{
 			diff = "Hard";
 		}
 		mp << n << " " << m << " " << l << '\n';
+		if(c != '*'){
+			gen(mp);
+			return;
+		}
 		cout << "Now you have to fill the maze cells\n";
 		maze.push_back({}), mark.push_back({});
 		for(int i = 0; i < n; ++i){
@@ -299,10 +313,7 @@ struct gameplay{
 			mapls_ << e << '\n';
 		mapls_.close();
 		ofstream mp("./maps/" + s + ".txt");
-		if(c == '*')
-			upload_data(mp, s);
-		else
-			gen(mp, s, c);
+		upload_data(mp, s, c);
 		creator = user1;
 		name = s;
 		mp.close();
