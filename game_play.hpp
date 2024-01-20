@@ -339,7 +339,7 @@ struct gameplay{
 	
 	void create(string u, string u1, string inpt){
 		user = u, user1 = u1;
-		mode = "(Random Generator)";
+		mode = "(random generator)";
 		while(true){
 			if(inpt.size() == 1){
 				for(bool b = false; true; b = true){
