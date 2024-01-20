@@ -6,13 +6,13 @@
 #include <algorithm>
 #include <conio.h>
 #include "game_play.hpp"
+#include "chess.hpp"
 using namespace std;
 
 #define WINDOWS
 
 #ifdef WINDOWS
     #include <windows.h>
-    #include "chess.hpp"
     HANDLE col =  GetStdHandle(STD_OUTPUT_HANDLE);
 #endif
 

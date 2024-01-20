@@ -25,7 +25,9 @@ struct gameplay{
 
 	bool ext = false;
 	
-	int n, m, l, sp;
+	int n, m, l, ssp;
+
+	vector<int> sp;
 
 	vector<vector<ll>> maze;
 	
@@ -83,9 +85,8 @@ struct gameplay{
 		c_col(15);
 		cout << " " << mode << ":\nHeight = " << n << ", Width = " << m << ", Path lenght = " << l << "\n\n";
 		cout << "difficulty: " << diff << "\n\n";
-		for(int _ = 0; _ < m * (sp + 1); ++_)
+		for(int _ = 0; _ < ssp + m + 1; ++_)
 			cout << '_';
-		cout << '_';
 		cout << '\n';
 		for(int i = 0; i < n; ++i){
 			cout << "|";
@@ -95,24 +96,23 @@ struct gameplay{
 				cout << maze[i][j];
 				if(maze[i][j] && mark[i][j])
 					c_col(15);
-				for(int k = 0; k < sp - max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) - (int)(maze[i][j] < 0); ++k)
+				for(int k = 0; k < sp[j] - max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) - (int)(maze[i][j] < 0); ++k)
 					cout << " ";
 				cout << "|";
 			}
 			cout << '\n';
-			for(int _ = 0; _ < m * (sp + 1); ++_)
-				if(_ % (sp + 1))
+			for(int k = 0; k < m; ++k){
+				cout << '|';
+				for(int _ = 0; _ < sp[j]; ++_)
 					cout << '_';
-				else
-					cout << '|';
-			cout << "|";
-			cout << '\n';
+			}
+			cout << "|\n";
 		}
 		cout << "\n------------------------\nCommands that you need when you're playing:\n";
 		cout << "w: move to the upper cell, s: move to the lower cell\n";
 		cout << "a: move to left, d: move to right\n";
 		cout << "t: timer\n";
-		cout << "q: quit(and show soloution)\n";
+		cout << "q: quit and show soloution\n";
 		cout << "-------------------------\n";
 		return;
 	}
@@ -133,10 +133,14 @@ struct gameplay{
 					mark[i][j] = true;
 			}
 		}
-		sp = 0;
-		for(int i = 0; i < n; ++i)
-			for(int j = 0; j < m; ++j)
-				sp = max(sp, max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) + (int)(maze[i][j] < 0));
+		sp.clear();
+		ssp = 0;
+		for(int j = 0; j < m; ++j){
+			sp.push_back(0);
+			for(int i = 0; i < m; ++i)
+				sp[j] = max(sp[j], max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) + (int)(maze[i][j] < 0));
+			ssp += sp[j];
+		}
 		return;
 	}
 	
@@ -211,10 +215,14 @@ struct gameplay{
 			}
 			mp << '\n';
 		}
-		sp = 0;
-		for(int i = 0; i < n; ++i)
-			for(int j = 0; j < m; ++j)
-				sp = max(sp, max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) + (int)(maze[i][j] < 0));
+		sp.clear();
+		ssp = 0;
+		for(int j = 0; j < m; ++j){
+			sp.push_back(0);
+			for(int i = 0; i < n; ++i)
+				sp[j] = max(sp, max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) + (int)(maze[i][j] < 0));
+			ssp += sp[j];
+		}
 		return;
 	}
 	
