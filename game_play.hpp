@@ -363,13 +363,13 @@ struct gameplay{
 				}
 			}
 			if(inpt[2] == '1'){
-				generate(inpt[2]);
+				sen2(inpt[2]);
 				inpt.pop_back();
 				inpt.pop_back();
 				continue;
 			}
 			else{
-				generate(inpt[2]);
+				sen2(inpt[2]);
 				inpt.pop_back();
 				inpt.pop_back();
 				continue;
