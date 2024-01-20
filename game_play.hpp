@@ -226,7 +226,7 @@ struct gameplay{
 		return;
 	}
 	
-	void sen2(){
+	void sen2(char c = '*'){
 		ifstream mapls("./maps/mapnames.txt");
 		int cnt = 0;
 		string s, s1;
@@ -283,7 +283,10 @@ struct gameplay{
 			mapls_ << e << '\n';
 		mapls_.close();
 		ofstream mp("./maps/" + s + ".txt");
-		upload_data(mp, s);
+		if(c == '*')
+			upload_data(mp, s);
+		else
+			gen(mp, s, c);
 		creator = user1;
 		name = s;
 		mp.close();
@@ -334,77 +337,6 @@ struct gameplay{
 		return;
 	}
 	
-	void easy(){
-		ifstream mapls("./maps/mapnames.txt");
-		int cnt = 0;
-		string s, s1;
-		vector<string> mapname, maplist;
-		while(getline(mapls, s)){
-			mapname.push_back(s);
-			maplist.push_back(s);
-		}
-		mapls.close();
-		if(maplist.size())
-			sort(maplist.begin(), maplist.end());
-		bool p = false;
-		while(true){
-			head();
-			cout << "if you're opinion changed you can write b and press the enter key" << '\n';
-			cout << "Map's name: ";
-			s = "";
-			while(!s.size())
-				getline(cin, s);
-			if(s == "b"){
-				ext = true;
-				return;
-			}
-			cout << '\n';
-			if(maplist.size() && binary_search(maplist.begin(), maplist.end(), s)){
-				cout << "this map name is already exists do you want to replace it? (y:yes/any other key:no)" << '\n';
-				char c = getch();
-				if(c == 'y'){
-					ifstream f("./maps/" + s + ".txt");
-					getline(f, s1);
-					f.close();
-					if(user1 == s1){
-						p = true;
-						break;
-					}
-					else{
-						cout << "sorry but you can't just the creator of the map can change it" << '\n';
-						cout << "press any key to continue" << '\n';
-						getch();
-					}
-				}
-			}
-			else
-				break;
-		}
-		if(!p)
-			mapname.push_back(s);
-		cout << "press (b:if you want to back, any other key:to continue)\n";
-		if(getch() == 'b')
-			return;
-		reverse(mapname.begin(), mapname.end());
-		ofstream mapls_("./maps/mapnames.txt");
-		for(auto &e: mapname)
-			mapls_ << e << '\n';
-		mapls_.close();
-		ofstream mp("./maps/" + s + ".txt");
-		upload_data(mp, s);
-		creator = user1;
-		name = s;
-		mp.close();
-		print_map();
-		cout << "press any key to continue ";
-		getch();
-		return;
-	}
-	
-	void hard(){
-		
-	}
-	
 	void create(string u, string u1, string inpt){
 		user = u, user1 = u1;
 		mode = "(Random Generator)";
@@ -431,13 +363,13 @@ struct gameplay{
 				}
 			}
 			if(inpt[2] == '1'){
-				easy();
+				generate(inpt[2]);
 				inpt.pop_back();
 				inpt.pop_back();
 				continue;
 			}
 			else{
-				hard();
+				generate(inpt[2]);
 				inpt.pop_back();
 				inpt.pop_back();
 				continue;
