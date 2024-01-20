@@ -482,7 +482,7 @@ void menu(){
 			c_col(15);
 		if(s[0] == '8')
 			c_col(6);
-		cout << "  8. Chess" << endl;
+		cout << "  8. Chess (Just for fun)" << endl;
 		if(s[0] == '8')
 			c_col(15);
 		cout << "----------\nIf you want to select an option press it's section number\nAfter you set the section you want to go press enter key\n----------" << '\n';
@@ -555,7 +555,8 @@ void menu(){
 				continue;
 			}
 			if(s[0] == '1'){
-				//createmp(s);
+				gameplay map;
+				map.create(user, user1, s);
 				continue;
 			}
 		}

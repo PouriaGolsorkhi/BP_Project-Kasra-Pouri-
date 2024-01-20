@@ -91,10 +91,10 @@ struct gameplay{
 		for(int i = 0; i < n; ++i){
 			cout << "|";
 			for(int j = 0; j < m; ++j){
-				if(maze[i][j] && mark[i][j])
-					c_col(1);
+				if(mark[i][j])
+					c_col(1 + (!maze[i][j] ? 3 : 0));
 				cout << maze[i][j];
-				if(maze[i][j] && mark[i][j])
+				if(mark[i][j])
 					c_col(15);
 				for(int k = 0; k < sp[j] - max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) - (int)(maze[i][j] < 0); ++k)
 					cout << " ";
@@ -111,7 +111,7 @@ struct gameplay{
 		cout << "\n------------------------\nCommands that you need when you're playing:\n";
 		cout << "w: move to the upper cell, s: move to the lower cell\n";
 		cout << "a: move to left, d: move to right\n";
-		cout << "t: timer\n";
+		cout << "t: timer, u: undo\n";
 		cout << "q: quit and show soloution\n";
 		cout << "-------------------------\n";
 		return;
@@ -326,6 +326,46 @@ struct gameplay{
 			}
 			else{
 				sen2();
+				inpt.pop_back();
+				inpt.pop_back();
+				continue;
+			}
+		}
+		return;
+	}
+	
+	void create(string u, string u1, string inpt){
+		user = u, user1 = u1;
+		while(true){
+			if(inpt.size() == 1){
+				for(bool b = false; true; b = true){
+					head();
+					c_col(6);
+					cout << "1. Create New Map" << '\n';
+					cout << "  - 1.1 Easy" << '\n';
+					cout << "  - 1.2 Hard" << '\n';
+					c_col(15);
+					cout << "\nIf you want 1.1 press 1 or if you rather 1.2 press 2 and for back to menu press b\n";
+					if(b)
+						cout << "invalid input, try again" << '\n';
+					char c = getch();
+					if(c == '1' || c == '2'){
+						inpt.push_back('.');
+						inpt.push_back(c);
+						break;
+					}
+					if(c == 'b')
+						return;
+				}
+			}
+			if(inpt[2] == '1'){
+				return;
+				inpt.pop_back();
+				inpt.pop_back();
+				continue;
+			}
+			else{
+				return;
 				inpt.pop_back();
 				inpt.pop_back();
 				continue;
