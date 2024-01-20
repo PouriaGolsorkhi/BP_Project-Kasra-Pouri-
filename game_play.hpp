@@ -184,15 +184,25 @@ struct gameplay{
 		return;
 	}
 	
-	void upload_data(ofstream &mp, string mapn){
+	void upload_data(ofstream &mp, string mapn, char c = '*'){
 		head();
 		mp << user1 << '\n';
 		mp << mapn << '\n';
-		mode = "(manual)";
-		mp << "(manual)" << '\n';
+		mp << mode << '\n';
 		if(c == '1'){
 			cout << "enter the height and width of the maze" << '\n';
 			cin >> m;
+			n = 3, l = m + 2, mn = -3, mx = 3;
+			cout << "enter the minimum number, and maximum number of 0s respectively" << '\n';
+			cin >> b1 >> b2;
+		}
+		else if(c == '2'){
+			cout << "enter the height and width of the maze and the path lenght in this order(height withd path lenght)" << '\n';
+			cin >> n >> m >> l;
+			cout << "enter the minimum number in the maze and maximum number in the maze respectively" << '\n';
+			cin >> mn >> mx;
+			cout << "enter the minimum number, and maximum number of 0s respectively" << '\n';
+			cin >> b1 >> b2;
 		}
 		else{
 			cout << "enter the height and width of the maze and the path lenght in this order(height withd path lenght)" << '\n';
@@ -304,6 +314,7 @@ struct gameplay{
 	
 	void open(string u, string u1, string inpt){
 		user = u, user1 = u1;
+		mode = "(manual)";
 		while(true){
 			if(inpt.size() == 1){
 				for(bool b = false; true; b = true){
