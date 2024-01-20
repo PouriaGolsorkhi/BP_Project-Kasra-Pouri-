@@ -12,7 +12,7 @@ using namespace std;
 	#include <windows.h>
 #endif
 
-class chess{
+struct chess{
 	private:
 	
 	#ifdef WINDOWS

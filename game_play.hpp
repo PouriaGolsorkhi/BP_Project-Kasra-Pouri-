@@ -103,7 +103,7 @@ struct gameplay{
 			cout << '\n';
 			for(int k = 0; k < m; ++k){
 				cout << '|';
-				for(int _ = 0; _ < sp[j]; ++_)
+				for(int _ = 0; _ < sp[k]; ++_)
 					cout << '_';
 			}
 			cout << "|\n";
@@ -220,7 +220,7 @@ struct gameplay{
 		for(int j = 0; j < m; ++j){
 			sp.push_back(0);
 			for(int i = 0; i < n; ++i)
-				sp[j] = max(sp, max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) + (int)(maze[i][j] < 0));
+				sp[j] = max(sp[j], max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) + (int)(maze[i][j] < 0));
 			ssp += sp[j];
 		}
 		return;
