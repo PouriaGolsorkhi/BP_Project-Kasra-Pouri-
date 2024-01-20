@@ -190,8 +190,14 @@ struct gameplay{
 		mp << mapn << '\n';
 		mode = "(manual)";
 		mp << "(manual)" << '\n';
-		cout << "enter the height and width of maze and the path lenght in this order(height withd path lenght)" << '\n';
-		cin >> n >> m >> l;
+		if(c == '1'){
+			cout << "enter the height and width of the maze" << '\n';
+			cin >> m;
+		}
+		else{
+			cout << "enter the height and width of the maze and the path lenght in this order(height withd path lenght)" << '\n';
+			cin >> n >> m >> l;
+		}
 		if(n <= 3 && l == n + m - 1){
 			mp << "Easy" << '\n';
 			diff = "Easy";
