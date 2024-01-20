@@ -25,7 +25,7 @@ struct gameplay{
 
 	bool ext = false;
 	
-	int n, m, l, sp = 11;
+	int n, m, l, sp;
 
 	vector<vector<ll>> maze;
 	
@@ -133,6 +133,10 @@ struct gameplay{
 					mark[i][j] = true;
 			}
 		}
+		sp = 0;
+		for(int i = 0; i < n; ++i)
+			for(int j = 0; j < m; ++j)
+				sp = max(sp, max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) + (int)(maze[i][j] < 0));
 		return;
 	}
 	
@@ -207,6 +211,10 @@ struct gameplay{
 			}
 			mp << '\n';
 		}
+		sp = 0;
+		for(int i = 0; i < n; ++i)
+			for(int j = 0; j < m; ++j)
+				sp = max(sp, max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) + (int)(maze[i][j] < 0));
 		return;
 	}
 	
