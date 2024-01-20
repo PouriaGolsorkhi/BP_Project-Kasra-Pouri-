@@ -183,8 +183,15 @@ struct gameplay{
 		}
 		return;
 	}
-	
+	// x 0 y --> z   max(x-z, x)    min(y-z, y)
+	//                 x      y-z
+	//                x-z       y
 	void gen(ofstream &mp){
+		for(int i = 0; i < n; ++i){
+			maze.push_back({}), mark.push_back({});
+			for(int j = 0; j < m; ++j)
+				maze[i],push_back(0), mark[i].push_back(false);
+		}
 		// masir javab
 		// por kardan
 		// rikhtan too file
@@ -227,31 +234,31 @@ struct gameplay{
 			diff = "Hard";
 		}
 		mp << n << " " << m << " " << l << '\n';
-		if(c != '*'){
+		if(c != '*')
 			gen(mp);
-			return;
-		}
-		cout << "Now you have to fill the maze cells\n";
-		maze.push_back({}), mark.push_back({});
-		for(int i = 0; i < n; ++i){
+		else{
+			cout << "Now you have to fill the maze cells\n";
 			maze.push_back({}), mark.push_back({});
-			for(int j = 0; j < m; ++j){
-				maze[i].push_back(0);
-				mark[i].push_back(false);
-				cin >> maze[i][j];
-				if(!maze[i][j])
-					mark[i][j] = true;
-				mp << maze[i][j] << " ";
+			for(int i = 0; i < n; ++i){
+				maze.push_back({}), mark.push_back({});
+				for(int j = 0; j < m; ++j){
+					maze[i].push_back(0);
+					mark[i].push_back(false);
+					cin >> maze[i][j];
+					if(!maze[i][j])
+						mark[i][j] = true;
+					mp << maze[i][j] << " ";
+				}
+				mp << '\n';
 			}
-			mp << '\n';
-		}
-		sp.clear();
-		ssp = 0;
-		for(int j = 0; j < m; ++j){
-			sp.push_back(0);
-			for(int i = 0; i < n; ++i)
-				sp[j] = max(sp[j], max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) + (int)(maze[i][j] < 0));
-			ssp += sp[j];
+			sp.clear();
+			ssp = 0;
+			for(int j = 0; j < m; ++j){
+				sp.push_back(0);
+				for(int i = 0; i < n; ++i)
+					sp[j] = max(sp[j], max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) + (int)(maze[i][j] < 0));
+				ssp += sp[j];
+			}
 		}
 		return;
 	}
