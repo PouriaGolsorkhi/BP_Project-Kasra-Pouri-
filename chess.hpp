@@ -355,6 +355,9 @@ class chess{
 	            if(sen & (1 << p))
                 	cin >> s;
                 if(s == "i-quit"){
+                	cout << "Player " << 2 - p << "wins!" << '\n';
+                	cout << "press any key to continue";
+                	getch();
                 	ext = true;
                 	return;
                 }
