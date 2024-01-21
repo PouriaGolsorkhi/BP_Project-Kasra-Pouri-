@@ -33,7 +33,7 @@ struct gameplay{
 	
 	vector<vector<bool>> mark;
 	
-	int sum;
+	ll sum;
 	
 	vector<vector<int>> ans;
 	
@@ -188,30 +188,42 @@ struct gameplay{
 		return;
 	}
 	
+	void rnd(ll &num, int mn, int mx){
+		num = ((rand() + time(0)) % (mx - mn)) + mn;
+		num += (int)(num >= 0);
+		return;
+	}
+	
 	void gen(ofstream &mp){
 		for(int i = 0; i < n; ++i){
 			maze.push_back({}), mark.push_back({});
 			for(int j = 0; j < m; ++j)
 				maze[i].push_back(0), mark[i].push_back(false);
 		}
-		// masir javab
-		// por kardan masir
+		// gen masir javab
+		sum = 0;
+		for(int i = 0; i + 2 < l; ++i){
+			rnd(maze[ans[i][0]][ans[i][1]], mn + min(0LL, -sum), mx - max(sum, 0LL));
+			while(i == l - 3 && sum + maze[ans[i][0]][ans[i][1]] == 0)
+				rnd(maze[ans[i][0]][ans[i][1]], mn + min(0LL, -sum), mx - max(sum, 0LL));
+			sum += maze[ans[i][0]][ans[i][1]];
+		}
+		maze[ans[l - 2][0]][ans[l - 2][1]] = -sum;
+		rnd(maze[n - 1][m - 1], mn, mx);
 		int cnt0 = 0;
 		for(int i = 0; i < n; ++i)
 			for(int j = 0; j < m; ++j)
 				if(!mark[i][j]){
-					if(((rand() + time(0)) & 1) && cnt0 != b2){
+					if(((rand() + time(0)) & 1) && cnt0 < b2){
 						mark[i][j] = true;
 						++cnt0;
 					}
-					else{
-						maze[i][j] = ((rand() + time(0)) % (mx - mn)) + mn;
-						maze[i][j] += (int)(maze[i][j] >= 0);
-					}
+					else
+						rnd(maze[i][j], mn, mx);
 				}
 		for(int i = (rand() + time(0)) % n, ii = 0; ii < n; ++ii, i = (i + 1) % n)
 			for(int j = (rand() + time(0)) % m, jj = 0; jj < m; ++jj, j = (j + 1) % m)
-				if(!mark[i][j] && cnt0 != b1){
+				if(!mark[i][j] && cnt0 < b1){
 					mark[i][j] = true;
 					maze[i][j] = 0;
 					++cnt0;
