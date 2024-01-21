@@ -279,6 +279,10 @@ struct gameplay{
 				cout << maze[i][j] << " ";
 			}
 		cout << "---------\n";
+		for(auto &e: ans)
+			cout << e[0] << " " << e[1] << '\n';
+		cout << "press any key to continue ";
+		getch();
 		//exit(24);
 		return;
 	}
