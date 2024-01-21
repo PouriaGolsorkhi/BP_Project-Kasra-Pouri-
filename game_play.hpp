@@ -33,6 +33,10 @@ struct gameplay{
 	
 	vector<vector<bool>> mark;
 	
+	int sum;
+	
+	vector<vector<int>> ans;
+	
 	void c_col(int c){
     	#ifdef  WINDOWS
         	SetConsoleTextAttribute(col, c);
@@ -183,9 +187,7 @@ struct gameplay{
 		}
 		return;
 	}
-	// x 0 y --> z   max(x-z, x)    min(y-z, y)
-	//                 x      y-z
-	//                x-z       y
+	
 	void gen(ofstream &mp){
 		for(int i = 0; i < n; ++i){
 			maze.push_back({}), mark.push_back({});
@@ -198,7 +200,7 @@ struct gameplay{
 		for(int i = 0; i < n; ++i)
 			for(int j = 0; j < m; ++j)
 				if(!mark[i][j]){
-					if(((rand() + time(0)) & 1) && cnt0 != bu){
+					if(((rand() + time(0)) & 1) && cnt0 != b2){
 						mark[i][j] = true;
 						++cnt0;
 					}
@@ -209,7 +211,7 @@ struct gameplay{
 				}
 		for(int i = (rand() + time(0)) % n, ii = 0; ii < n; ++ii, i = (i + 1) % n)
 			for(int j = (rand() + time(0)) % m, jj = 0; jj < m; ++jj, j = (j + 1) % m)
-				if(!mark[i][j] && cnt0 != bl){
+				if(!mark[i][j] && cnt0 != b1){
 					mark[i][j] = true;
 					maze[i][j] = 0;
 					++cnt0;
