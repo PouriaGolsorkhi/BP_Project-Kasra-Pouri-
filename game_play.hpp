@@ -190,7 +190,7 @@ struct gameplay{
 		for(int i = 0; i < n; ++i){
 			maze.push_back({}), mark.push_back({});
 			for(int j = 0; j < m; ++j)
-				maze[i],push_back(0), mark[i].push_back(false);
+				maze[i].push_back(0), mark[i].push_back(false);
 		}
 		// masir javab
 		// por kardan
