@@ -22,11 +22,13 @@ struct gameplay{
 	#endif
 	
 	string user, user1, name, creator, diff, mode;
-
-	bool ext = false;
+	
+	bool ext = false, frombot = false;
 	
 	int n, m, l, mn, mx, b1, b2, ssp;
 
+	int dx[4] = {1, -1, 0, 0}, dy[4] = {0, 0, 1, -1};
+	
 	vector<int> sp;
 
 	vector<vector<ll>> maze;
@@ -96,7 +98,7 @@ struct gameplay{
 			cout << "|";
 			for(int j = 0; j < m; ++j){
 				if(mark[i][j])
-					c_col(1 + (!maze[i][j] ? 3 : 0));
+					c_col(1 + (maze[i][j] && frombot? 5: 0) + (!maze[i][j] ? 3 : 0));
 				cout << maze[i][j];
 				if(mark[i][j])
 					c_col(15);
@@ -194,6 +196,42 @@ struct gameplay{
 		return;
 	}
 	
+	bool valid(vector<int> cor){
+		if(!(cor[0] < n && 0 <= cor[0] && cor[1] < m && 0 <= cor[1]))
+			return false;
+		if(mark[cor[0]][cor[1]])
+			return false;
+		return true;
+	}
+	
+	void genp(vector<int> cor, int p){
+		if(!p && (cor[0] == n - 1 && cor[1] == m - 1)){
+			ext = true;
+			return;
+		}
+		if(!p || (cor[0] == n - 1 && cor[1] == m - 1))
+			return;
+		int n[4][2];
+		for(int i = 0; i < 4; ++i){
+			n[i][0] = cor[0] + dx[i];
+			n[i][1] = cor[1] + dy[i];
+		}
+		for(int i = 0; i < 2; ++i)
+			if((rand() + time(0)) & 1)
+				swap(n[i], n[i + 2]);
+		for(int j = 0, i = (rand() + time(0)) % 4; j < 4; ++j, i = (i + 1) % 4)
+			if(valid({n[i][0], n[i][1]})){
+				mark[n[i][0]][n[i][1]] = true;
+				ans.push_back({n[i][0], n[i][1]});
+				genp({n[i][0], n[i][1]}, p - 1);
+				if(ext)
+					return;
+				mark[n[i][0]][n[i][1]] = false;
+				ans.pop_back();
+			}
+		return;
+	}
+	
 	void gen(ofstream &mp){
 		for(int i = 0; i < n; ++i){
 			maze.push_back({}), mark.push_back({});
@@ -201,13 +239,19 @@ struct gameplay{
 				maze[i].push_back(0), mark[i].push_back(false);
 		}
 		// gen masir javab
+		ans.push_back({0, 0});
+		mark[0][0] = true;
+		genp({0, 0}, l - 1);
+		///////////////////
+		//exit(21);
 		sum = 0;
 		for(int i = 0; i + 2 < l; ++i){
-			rnd(maze[ans[i][0]][ans[i][1]], mn + min(0LL, -sum), mx - max(sum, 0LL));
+			rnd(maze[ans[i][0]][ans[i][1]], mn - min(0LL, sum), mx - max(sum, 0LL));
 			while(i == l - 3 && sum + maze[ans[i][0]][ans[i][1]] == 0)
 				rnd(maze[ans[i][0]][ans[i][1]], mn + min(0LL, -sum), mx - max(sum, 0LL));
 			sum += maze[ans[i][0]][ans[i][1]];
 		}
+		//exit(22);
 		maze[ans[l - 2][0]][ans[l - 2][1]] = -sum;
 		rnd(maze[n - 1][m - 1], mn, mx);
 		int cnt0 = 0;
@@ -228,9 +272,14 @@ struct gameplay{
 					maze[i][j] = 0;
 					++cnt0;
 				}
-		for(int i = 0; i < n; ++i, cout << '\n')
-			for(int j = 0; j < m; ++j)
+		cout << "---------\n";
+		for(int i = 0; i < n; ++i, mp << '\n', cout << '\n')
+			for(int j = 0; j < m; ++j){
 				mp << maze[i][j] << " ";
+				cout << maze[i][j] << " ";
+			}
+		cout << "---------\n";
+		//exit(24);
 		return;
 	}
 	
@@ -240,7 +289,7 @@ struct gameplay{
 		mp << mapn << '\n';
 		mp << mode << '\n';
 		if(c == '1'){
-			cout << "enter the height and width of the maze" << '\n';
+			cout << "enter the width of the maze" << '\n';
 			cin >> m;
 			n = 3, l = m + 2, mn = -3, mx = 3;
 			cout << "enter the minimum number, and maximum number of 0s respectively" << '\n';
@@ -284,14 +333,14 @@ struct gameplay{
 				}
 				mp << '\n';
 			}
-			sp.clear();
-			ssp = 0;
-			for(int j = 0; j < m; ++j){
-				sp.push_back(0);
-				for(int i = 0; i < n; ++i)
-					sp[j] = max(sp[j], max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) + (int)(maze[i][j] < 0));
-				ssp += sp[j];
-			}
+		}
+		sp.clear();
+		ssp = 0;
+		for(int j = 0; j < m; ++j){
+			sp.push_back(0);
+			for(int i = 0; i < n; ++i)
+				sp[j] = max(sp[j], max(1, (int)ceil(log10(abs(maze[i][j]) + 1))) + (int)(maze[i][j] < 0));
+			ssp += sp[j];
 		}
 		return;
 	}
@@ -406,6 +455,7 @@ struct gameplay{
 	}
 	
 	void create(string u, string u1, string inpt){
+		frombot = true;
 		user = u, user1 = u1;
 		mode = "(random generator)";
 		while(true){
