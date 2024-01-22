@@ -275,14 +275,14 @@ struct gameplay{
 		mp << mapn << '\n';
 		mp << mode << '\n';
 		if(c == '1'){
-			cout << "enter the width of the maze" << '\n';
+			cout << "enter the height and width of the maze repectively" << '\n';
 			cin >> n >> m;
 			l = m + n - 2, mn = -3, mx = 3;
 			cout << "enter the minimum number, and maximum number of 0s respectively" << '\n';
 			cin >> b1 >> b2;
 		}
 		else if(c == '2'){
-			cout << "enter the height and width of the maze and the path lenght in this order(height withd path lenght)" << '\n';
+			cout << "enter the height and width of the maze and the path lenght respectively" << '\n';
 			cin >> n >> m >> l;
 			cout << "enter the minimum number in the maze and maximum number in the maze respectively" << '\n';
 			cin >> mn >> mx;
@@ -293,7 +293,7 @@ struct gameplay{
 			cout << "enter the height and width of the maze and the path lenght in this order(height withd path lenght)" << '\n';
 			cin >> n >> m >> l;
 		}
-		if(n <= 3 && l == n + m - 2){
+		if(c == '1' || (bu < 6 && l == n + m - 2)){
 			mp << "Easy" << '\n';
 			diff = "Easy";
 		}
