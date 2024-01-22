@@ -521,13 +521,13 @@ struct gameplay{
 				cout << "You solve this maze! congragulations\n";
 				cout << "press any key to continue ";
 				getch();
-				//data
+				update(true);
 				return;
 			}
 			char c = getch();
 			if(c == 'q'){
 				quit();
-				//data
+				update(false);
 				return;
 			}
 			if(c == 'u' && ans.size() > 1){
@@ -547,6 +547,27 @@ struct gameplay{
 				}
 		}
 		in_play = false;
+		return;
+	}
+	
+	void update(bool win){
+		int timer = time(0) - tb, r_changes = (n + m) * l / ((timer + 59) / 60);
+		string s = ctime(&tb), ln;
+		ifstream hs("./accounts/" + user ".txt");
+		vector<string> vec;
+		while(getline(hs, ln))
+			vec.push_back(ln);
+		hs.close();
+		ofstream histo("./accounts/" + user ".txt");
+		histo << s << '\n';
+		histo << name << '\n';
+		histo << (win ? "Y" : "N") << '\n';
+		histo << timer << '\n';
+		histo << (win ? r_changes : -50) << '\n';
+		for(string &e: vec)
+			histo << e << '\n';
+		histo.close();
+		//ranking update remains
 		return;
 	}
 	
