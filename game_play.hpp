@@ -124,8 +124,7 @@ struct gameplay{
 		cout << "\n------------------------\nCommands that you need when you're playing:\n";
 		cout << "w: move to the upper cell, s: move to the lower cell\n";
 		cout << "a: move to left, d: move to right\n";
-		cout << "u: undo\n";
-		cout << "q: quit and show soloution\n";
+		cout << "u: undo, q: quit and show soloution\n";
 		cout << "-------------------------\n";
 		return;
 	}
