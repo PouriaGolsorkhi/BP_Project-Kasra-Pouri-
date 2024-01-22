@@ -551,22 +551,31 @@ struct gameplay{
 	}
 	
 	void update(bool win){
-		int timer = time(0) - tb, r_changes = (n + m) * l / ((timer + 59) / 60);
+		int timer = time(0) - tb, r_changes = (win ? (n + m) * l / (timer / 60 + 1) : -50);
 		string s = ctime(&tb), ln;
-		ifstream hs("./accounts/" + user ".txt");
+		ifstream hs("./accounts/games/" + user ".txt");
 		vector<string> vec;
 		while(getline(hs, ln))
 			vec.push_back(ln);
 		hs.close();
-		ofstream histo("./accounts/" + user ".txt");
+		ofstream histo("./accounts/games/" + user ".txt");
 		histo << s << '\n';
 		histo << name << '\n';
 		histo << (win ? "Y" : "N") << '\n';
 		histo << timer << '\n';
-		histo << (win ? r_changes : -50) << '\n';
+		histo << r_changes << '\n';
 		for(string &e: vec)
 			histo << e << '\n';
+		vec.clear();
 		histo.close();
+		ifstream rnk("./accounts/ranking.txt");
+		while(getline(rnk, ln))
+			vec.push_back(ln);
+		for(int i = 0; i < vec.size(); i += 2)
+			if(user1 == vec[i]){
+				int num = 0;
+				vec[i + 1] = to_string(num + r_changes);
+			}
 		//ranking update remains
 		return;
 	}
