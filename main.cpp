@@ -540,9 +540,9 @@ void menu(){
 				continue;
 			}
 			if(s[0] == '3'){
-				//gameplay game;
-				//game.open(user, user1, s);
-				//s1 = ".";
+				gameplay game;
+				game.create(user, user1, s);
+				s1 = ".";
 				back = true;
 				continue;
 			}

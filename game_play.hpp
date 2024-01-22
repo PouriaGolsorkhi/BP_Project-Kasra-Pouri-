@@ -25,7 +25,7 @@ struct gameplay{
 	
 	string user, user1, name, creator, diff, mode;
 	
-	bool ext = false, frombot = false;
+	bool ext = false, frombot = false, forplay = false;
 	
 	int n, m, l, mn, mx, b1, b2, ssp;
 
@@ -148,6 +148,13 @@ struct gameplay{
 		return;
 	}
 	
+	void play(){
+		print_map();
+		cout << "play" << '\n';
+		getch();
+		return;
+	}
+	
 	void sen1(){
 		ifstream mapls("./maps/mapnames.txt");
 		string s;
@@ -162,9 +169,9 @@ struct gameplay{
 			for(int i = 0; i < mapname.size(); ++i)
 				cout << " - " << i + 1 << ". " << mapname[i] << '\n';
 			if(!mapname.size())
-				cout << " - There is no map but you can create maps by choosing 2.2 or 1 from menu" << '\n';
+				cout << "~ There is no map but you can create maps by choosing 2.2 or 1 from menu" << '\n';
 			cout << "enter number of the map you want" << '\n';
-			cout << "if your opinion changed write -1 and press enter key" << '\n';
+			cout << "you can write -1 and press the enter key for back" << '\n';
 			if(b)
 				cout << "invalid input, try again" << '\n';
 			int ind;
@@ -180,6 +187,10 @@ struct gameplay{
 			ifstream mp("./maps/" + mapname[ind - 1] + ".txt");
 			load_data(mp);
 			mp.close();
+			if(forplay){
+				play();
+				return;
+			}
 			print_map();
 			cout << "press any key to continue ";
 			getch();
@@ -347,7 +358,7 @@ struct gameplay{
 		bool p = false;
 		while(true){
 			head();
-			cout << "if you're opinion changed you can write b and press the enter key for undo" << '\n';
+			cout << "you can write b and press the enter key for back" << '\n';
 			cout << "Map's name: ";
 			s = "";
 			while(!s.size())
@@ -393,6 +404,10 @@ struct gameplay{
 		creator = user1;
 		name = s;
 		mp.close();
+		if(forplay){
+			play();
+			return;
+		}
 		print_map();
 		cout << "press any key to continue ";
 		getch();
@@ -400,6 +415,10 @@ struct gameplay{
 	}
 	
 	void create(string u, string u1, string inpt){
+		if(inpt[0] == '3'){
+			forplay = true;
+			inpt[0] = '2';
+		}
 		user = u, user1 = u1;
 		mode = "(manual)";
 		if(inpt[0] == '1'){
@@ -418,14 +437,15 @@ struct gameplay{
 						cout << "  - 1.2 Hard" << '\n';
 					}
 					else{
-						cout << "If you want to solve a maze back to menu and Choose \"3. Solve a Maze\"\n\n";
+						if(!forplay)
+							cout << "If you want to solve a maze back to menu and Choose \"3. Solve a Maze\"\n\n";
 						c_col(6);
-						cout << "2. Playground" << '\n';
-						cout << "  - 2.1 Choose from Existing Maps" << '\n';
-						cout << "  - 2.2 Import a Custom Map" << '\n';
+						cout << (forplay ? "3. Solve a maze" : "2. Playground") << '\n';
+						cout << "  - " << 2 + forplay << ".1 Choose from Existing Maps" << '\n';
+						cout << "  - " << 2 + forplay << ".2 Import a Custom Map" << '\n';
 					}
 					c_col(15);
-					cout << "\nIf you want "<< inpt[0] << ".1 press 1 or if you rather " << inpt[0] <<".2 press 2 and for back to menu press b\n";
+					cout << "\nIf you want "<< (char)(inpt[0] + forplay) << ".1 press 1 or if you rather " << (char)(inpt[0] + forplay) <<".2 press 2 and for back to menu press b\n";
 					if(b)
 						cout << "invalid input, try again" << '\n';
 					char c = getch();
