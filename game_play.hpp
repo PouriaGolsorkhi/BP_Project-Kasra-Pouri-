@@ -263,7 +263,7 @@ struct gameplay{
 			for(int i = 0; i < n; ++i)
 				for(int j = 0; j < m; ++j)
 					if(!mark1[i][j] && (cnt0 > b2))
-						maze1[i][j] = rnd(mn, mx), mark1[i][j] = true, --cnt0;
+						maze[i][j] = rnd(mn, mx), mark1[i][j] = true, --cnt0;
 		for(int i = 0; i < n; ++i, mp << '\n')
 			for(int j = 0; j < m; ++j){
 				mp << maze[i][j] << " ";
