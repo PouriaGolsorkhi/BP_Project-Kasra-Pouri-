@@ -547,8 +547,8 @@ void menu(){
 				continue;
 			}
 			if(s[0] == '2'){
-				gameplay game;
-				game.open(user, user1, s);
+				gameplay map;
+				map.create(user, user1, s);
 				s1 = ".";
 				back = true;
 				continue;
@@ -556,6 +556,7 @@ void menu(){
 			if(s[0] == '1'){
 				gameplay map;
 				map.create(user, user1, s);
+				back = true;
 				continue;
 			}
 		}

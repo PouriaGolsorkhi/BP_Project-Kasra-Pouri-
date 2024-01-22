@@ -438,7 +438,7 @@ struct gameplay{
 				}
 			}
 			if(inpt[2] == '1'){
-				if(inp[0] == '1')
+				if(inpt[0] == '1')
 					sen2(inpt[2]);
 				else
 					sen1();
