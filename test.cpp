@@ -8,6 +8,7 @@ char* date(){
 }
 
 int main(){
+	/*
 	return 0;
 	//cout << date() << '\n';
 	time_t t = time(0);
@@ -17,7 +18,9 @@ int main(){
 	cout << "done! in" << '\n';
 	cout << time(0) - t << " secondes" << '\n';
 	return 0;
-	ifstream f("./maps/mapnames.txt");
+	*/
+	ofstream f("./maps/mapnames.txt");
+	/*
 	vector<string> v(3);
 	getline(f, v[0]);
 	getline(f, v[1]);
@@ -26,5 +29,6 @@ int main(){
 	for(int i = 0; i < 3; ++i)
 		if(v[i].size());
 			//fi << v[i] << '\n';
+	*/
 	return 0;
 }
