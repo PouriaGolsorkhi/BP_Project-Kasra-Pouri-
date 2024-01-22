@@ -21,8 +21,7 @@ void play(){
 };
 
 int main(){
-	time_t t = time(0);
-	cout << ctime(&t) << '\n';
+	cout << stoi("2343") + 1 << '\n';
 	return 0;
 	/*
 	return 0;
