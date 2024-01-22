@@ -261,11 +261,9 @@ struct gameplay{
 				for(int j = 0; j < m; ++j)
 					if(!mark[i][j] && (cnt0 > b2))
 						maze[i][j] = rnd(mn, mx), --cnt0, mark[i][j] = true;
-		for(int i = 0; i < n; ++i){
+		for(int i = 0; i < n; ++i, mp << '\n')
 			for(int j = 0; j < m; ++j)
 				mp << maze[i][j] << " ";
-			mp << '\n';
-		}
 		return;
 	}
 	
@@ -277,9 +275,7 @@ struct gameplay{
 		if(c == '1'){
 			cout << "enter the height and width of the maze repectively" << '\n';
 			cin >> n >> m;
-			l = m + n - 2, mn = -3, mx = 3;
-			cout << "enter the minimum number, and maximum number of 0s respectively" << '\n';
-			cin >> b1 >> b2;
+			l = m + n - 2, mn = -3, mx = 3, b1 = 2, b2 = 5;
 		}
 		else if(c == '2'){
 			cout << "enter the height and width of the maze and the path lenght respectively" << '\n';
@@ -293,7 +289,7 @@ struct gameplay{
 			cout << "enter the height and width of the maze and the path lenght in this order(height withd path lenght)" << '\n';
 			cin >> n >> m >> l;
 		}
-		if(c == '1' || (bu < 6 && l == n + m - 2)){
+		if(c == '1' || (c != '2' && b2 < 6 && l == n + m - 2)){
 			mp << "Easy" << '\n';
 			diff = "Easy";
 		}
@@ -307,7 +303,7 @@ struct gameplay{
 		else{
 			cout << "Now you have to fill the maze cells\n";
 			maze.push_back({}), mark.push_back({});
-			for(int i = 0; i < n; ++i){
+			for(int i = 0; i < n; ++i, mp << '\n'){
 				maze.push_back({}), mark.push_back({});
 				for(int j = 0; j < m; ++j){
 					maze[i].push_back(0);
@@ -317,7 +313,6 @@ struct gameplay{
 						mark[i][j] = true;
 					mp << maze[i][j] << " ";
 				}
-				mp << '\n';
 			}
 		}
 		sp.clear();
