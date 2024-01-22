@@ -21,6 +21,9 @@ void play(){
 };
 
 int main(){
+	time_t t = time(0);
+	cout << ctime(&t) << '\n';
+	return 0;
 	/*
 	return 0;
 	//cout << date() << '\n';
