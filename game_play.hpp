@@ -25,13 +25,15 @@ struct gameplay{
 	
 	string user, user1, name, creator, diff, mode;
 	
-	time_t tb;
+	time_t tb, tp;
 	
 	bool ext = false, frombot = false, forplay = false, in_play = false;
 	
 	int n, m, l, mn, mx, b1, b2, ssp;
 
 	int dx[4] = {1, -1, 0, 0}, dy[4] = {0, 0, 1, -1};
+	
+	int pl = 15;
 	
 	vector<int> sp;
 
@@ -205,21 +207,25 @@ struct gameplay{
 		return !mark[c[0]][c[1]];
 	}
 	
-	bool ok;
+	bool ok, give_up;
 
 	void solve(vector<int> c, int p, int sum){
 		if(c[0] == n - 1 && c[1] == m - 1 && !p && !sum){ 
 			ok = true;
 			return;
 		}
-		if(!p) 
+		if(!p)
 			return;
+		if(time(0) - tp > pl){
+			give_up = true;
+			return;
+		}
 		for(int i = rand() % 4 , j = 0 ; j < 4; ++j, i = (i + 1) % 4)
 			if(valid({c[0] + dx[i], c[1] + dy[i]})){
 				mark[c[0] + dx[i]][c[1] + dy[i]] = true;
 				ans.push_back({c[0] + dx[i], c[1] + dy[i]});
 				solve({c[0] + dx[i], c[1] + dy[i]}, p - 1, sum + maze[c[0]][c[1]]);
-				if(ok)
+				if(ok || give_up)
 					return;
 				mark[c[0] + dx[i]][c[1] + dy[i]] = false;
 				ans.pop_back();
@@ -240,9 +246,10 @@ struct gameplay{
 			for(int j = 0; j < m; ++j)
 				maze[i].push_back(0), mark[i].push_back(false);
 		}
-		ok = false;
+		ok = give_up = false;
 		mark[0][0] = true;
 		ans.push_back({0, 0});
+		tp = time(0);
 		solve({0, 0}, l, 0);
 		int sum = 0, mx1 = min(abs(mx), abs(mn)), mn1 = -mx1;
 		for(int i = 0; i < l - 2; ++i){
@@ -304,7 +311,7 @@ struct gameplay{
 			cout << "enter the height and width of the maze and the path lenght respectively" << '\n';
 			cin >> n >> m >> l;
 		}
-		if(c == '1' || (c != '2' && b2 < 6 && l == n + m - 2)){
+		if(c == '1' || (c != '2' && (c == '*' || b2 < 6) && l == n + m - 2)){
 			mp << "Easy" << '\n';
 			diff = "Easy";
 		}
@@ -426,7 +433,7 @@ struct gameplay{
 		while(true){
 			maze.clear(), mark.clear(), ans.clear();
 			if(inpt.size() == 1){
-				for(bool b = false; true; b = true){
+				for(bool bbb = false; true; bbb = true){
 					head();
 					if(inpt[0] == '1'){
 						c_col(6);
@@ -444,7 +451,7 @@ struct gameplay{
 					}
 					c_col(15);
 					cout << "\nIf you want "<< (char)(inpt[0] + forplay) << ".1 press 1 or if you rather " << (char)(inpt[0] + forplay) <<".2 press 2 and for back to menu press b\n";
-					if(b)
+					if(bbb)
 						cout << "invalid input, try again" << '\n';
 					char c = getch();
 					if(c == '1' || c == '2'){
@@ -470,17 +477,75 @@ struct gameplay{
 		return;
 	}
 	
+	void quit(){
+		frombot = true;
+		ans.clear(), ans.push_back({0, 0});
+		for(int i = 0; i < n; ++i)
+			for(int j = 0; j < m; ++j)
+				mark[i][j] = !maze[i][j];	
+		mark[0][0] = true;
+		ok = give_up = false;
+		tp = time(0);
+		solve({0, 0}, l, 0);
+		if(!ok)
+			for(int i = 0; i < n; ++i)
+				for(int j = 0; j < m; ++j)
+					mark[i][j] = !maze[i][j];
+		print_map();
+		if(ok)
+			cout << "Unfortunately you lost! Now you can see the solution" << '\n';
+		else
+			cout << "Sorry seems this map doesn't have any solution" << '\n';
+		cout << "press any key to continue ";
+		getch();
+		frombot = in_play = false;
+		return;
+	}
+	
 	void play(){
 		print_map();
 		cout << "press (b:for back, any other key:for continue)" << '\n';
 		if(getch() == 'b')
 			return;
 		in_play = true;
-		// only 2 things remains:
-		//
-		// update data from files: history, leader board
-		// 
-		// handeling game succesfully
+		tb = time(0);
+		ans.push_back({0, 0});
+		mark[0][0] = true;
+		vector<int> cor = {0, 0};
+		int sum = maze[0][0], plen = 0;
+		char mvs[4] = {'s', 'w', 'd', 'a'};
+		while(true){
+			print_map();
+			cout << "**If you do an invalid move nothing wil change**" << '\n';
+			if(sum == maze[n - 1][m - 1] && plen == l){
+				cout << "You solve this maze! congragulations\n";
+				cout << "press any key to continue ";
+				getch();
+				//data
+				return;
+			}
+			char c = getch();
+			if(c == 'q'){
+				quit();
+				//data
+				return;
+			}
+			if(c == 'u' && ans.size() > 1){
+				mark[cor[0]][cor[1]] = false;
+				sum -= maze[cor[0]][cor[1]];
+				--plen;
+				ans.pop_back();
+				cor = ans.back();
+			}
+			for(int i = 0; i < 4; ++i)
+				if(c == mvs[i] && valid({cor[0] + dx[i], cor[1] + dy[i]})){
+					mark[(cor[0] += dx[i])][(cor[1] += dy[i])] = true;
+					ans.push_back({cor[0], cor[1]});
+					sum += maze[cor[0]][cor[1]];
+					++plen;
+					break;
+				}
+		}
 		in_play = false;
 		return;
 	}
