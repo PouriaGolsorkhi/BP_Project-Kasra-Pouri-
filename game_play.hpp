@@ -150,8 +150,10 @@ struct gameplay{
 	
 	void play(){
 		print_map();
-		cout << "play" << '\n';
-		getch();
+		cout << "press(b:for back, any other key:for continue)" << '\n';
+		if(getch() == 'b')
+			return;
+		
 		return;
 	}
 	
@@ -176,10 +178,8 @@ struct gameplay{
 				cout << "invalid input, try again" << '\n';
 			int ind;
 			cin >> ind;
-			if(ind == -1){
-				ext = true;
+			if(ind == -1)
 				return;
-			}
 			if(mapname.size() < ind || ind < 1){
 				b = true;
 				continue;
@@ -189,7 +189,7 @@ struct gameplay{
 			mp.close();
 			if(forplay){
 				play();
-				return;
+				continue;
 			}
 			print_map();
 			cout << "press any key to continue ";
