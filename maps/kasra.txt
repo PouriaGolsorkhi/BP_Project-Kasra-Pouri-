@@ -1,9 +1,8 @@
 kasra
 kasra
-(random generator)
-Easy
-4 4 6
--2 -1 3 -2 
-0 0 -2 -1 
-0 1 -2 3 
-3 -2 -3 -1 
+(manual)
+Hard
+3 3 4
+1 2 3 
+233 33 -6 
+0 0 2 

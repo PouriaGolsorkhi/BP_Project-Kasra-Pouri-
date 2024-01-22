@@ -25,7 +25,9 @@ struct gameplay{
 	
 	string user, user1, name, creator, diff, mode;
 	
-	bool ext = false, frombot = false, forplay = false;
+	time_t tb;
+	
+	bool ext = false, frombot = false, forplay = false, in_play = false;
 	
 	int n, m, l, mn, mx, b1, b2, ssp;
 
@@ -88,7 +90,12 @@ struct gameplay{
 		cout << creator;
 		c_col(15);
 		cout << " " << mode << ":\nHeight = " << n << ", Width = " << m << ", Path lenght = " << l << "\n\n";
-		cout << "difficulty: " << diff << "\n\n";
+		cout << "difficulty: " << diff << "\n";
+		if(in_play){
+			c_col(14);
+			cout << "Timer: " << time(0) - tb << "s\n\n";
+			c_col(15);
+		}
 		for(int _ = 0; _ < ssp + m + 1; ++_)
 			cout << '_';
 		cout << '\n';
@@ -145,15 +152,6 @@ struct gameplay{
 				sp[j] = max(sp[j], max(1LL, (int)ceil(log10(abs(maze[i][j]) + 1))) + (int)(maze[i][j] < 0));
 			ssp += sp[j];
 		}
-		return;
-	}
-	
-	void play(){
-		print_map();
-		cout << "press(b:for back, any other key:for continue)" << '\n';
-		if(getch() == 'b')
-			return;
-		
 		return;
 	}
 	
@@ -303,7 +301,7 @@ struct gameplay{
 			cin >> b1 >> b2;
 		}
 		else{
-			cout << "enter the height and width of the maze and the path lenght in this order(height withd path lenght)" << '\n';
+			cout << "enter the height and width of the maze and the path lenght respectively" << '\n';
 			cin >> n >> m >> l;
 		}
 		if(c == '1' || (c != '2' && b2 < 6 && l == n + m - 2)){
@@ -469,6 +467,21 @@ struct gameplay{
 				continue;
 			}
 		}
+		return;
+	}
+	
+	void play(){
+		print_map();
+		cout << "press (b:for back, any other key:for continue)" << '\n';
+		if(getch() == 'b')
+			return;
+		in_play = true;
+		// only 2 things remains:
+		//
+		// update data from files: history, leader board
+		// 
+		// handeling game succesfully
+		in_play = false;
 		return;
 	}
 	

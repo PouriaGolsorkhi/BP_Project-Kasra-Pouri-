@@ -7,6 +7,19 @@ char* date(){
 	return dt;
 }
 
+struct khar{
+
+void play2(){
+	play();
+	return;	
+}
+
+void play(){
+	return;
+}
+
+};
+
 int main(){
 	/*
 	return 0;
