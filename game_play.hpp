@@ -251,6 +251,8 @@ struct gameplay{
 		int cnt0 = (m * n) - l - 1;
 		maze[ans[l - 1][0]][ans[l - 1][1]] = -sum;
 		maze[n - 1][m - 1] = rnd(mn, mx);
+		vector<vector<bool>> mark1(n, vector<bool>(m, false));
+		for(int )
 		for(int i = 0; i < n; ++i)
 			for(int j = 0; j < m; ++j)
 				if(!mark[i][j])
@@ -262,8 +264,11 @@ struct gameplay{
 					if(!mark[i][j] && (cnt0 > b2))
 						maze[i][j] = rnd(mn, mx), --cnt0, mark[i][j] = true;
 		for(int i = 0; i < n; ++i, mp << '\n')
-			for(int j = 0; j < m; ++j)
+			for(int j = 0; j < m; ++j){
 				mp << maze[i][j] << " ";
+				if(!maze[i][j])
+					mark[i][j] = true;
+			}
 		return;
 	}
 	
