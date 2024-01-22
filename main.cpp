@@ -397,8 +397,7 @@ void leaderboard(){
 		cout << "|";
 		c_col(10);
 		cout << standing[i].second;
-		l = ceil(log10(standing[i].second + 1));
-		l = max(1, l);
+		l = max(1LL, (int)ceil(log10(standing[i].second + 1)));
 		for(int j = 0; j < 6 - l; ++j)
 			cout << " ";
 		c_col(15);
@@ -565,7 +564,7 @@ void menu(){
 	return;
 }
 
-int main(){
+signed main(){
 	enter();
 	return 0;
 }
