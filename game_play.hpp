@@ -439,22 +439,13 @@ struct gameplay{
 				}
 			}
 			if(inpt[2] == '1'){
-				if(inpt[0] == '1')
-					sen2(inpt[2]);
-				else
-					sen1();
-				inpt.pop_back();
-				inpt.pop_back();
-				if(inpt[0] == '1')
-					return;
+				inpt[0] == '1' ? sen2(inpt[2]) : sen1();
+				inpt.pop_back(), inpt.pop_back();
 				continue;
 			}
 			else{
-				sen2(inpt[2]);
-				inpt.pop_back();
-				inpt.pop_back();
-				if(inpt[0] == '1')
-					return;
+				sen2(inpt[0] == '1' ? inpt[2] : '*');
+				inpt.pop_back(), inpt.pop_back();
 				continue;
 			}
 		}
