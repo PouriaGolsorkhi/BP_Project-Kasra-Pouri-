@@ -407,6 +407,7 @@ struct gameplay{
 			frombot = true;
 		}
 		while(true){
+			maze.clear(), mark.clear(), ans.clear();
 			if(inpt.size() == 1){
 				for(bool b = false; true; b = true){
 					head();
