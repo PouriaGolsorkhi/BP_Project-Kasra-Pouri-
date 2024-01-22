@@ -442,9 +442,12 @@ struct gameplay{
 	}
 	
 	void create(string u, string u1, string inpt){
-		frombot = true;
 		user = u, user1 = u1;
-		mode = "(random generator)";
+		mode = "(manual)";
+		if(inpt[0] == '1'){
+			mode = "(random generator)";
+			frombot = true;
+		}
 		while(true){
 			if(inpt.size() == 1){
 				for(bool b = false; true; b = true){
@@ -471,12 +474,16 @@ struct gameplay{
 				sen2(inpt[2]);
 				inpt.pop_back();
 				inpt.pop_back();
+				if(inpt[0] == '1')
+					return;
 				continue;
 			}
 			else{
 				sen2(inpt[2]);
 				inpt.pop_back();
 				inpt.pop_back();
+				if(inpt[0] == '1')
+					return;
 				continue;
 			}
 		}
