@@ -274,7 +274,7 @@ void enter(){
 
 void history(){
     string s1;
-	ifstream games("./accounts/games" + user + ".txt");
+	ifstream games("./accounts/games/" + user + ".txt");
 	head();
 	vector<string> act;
 	while(getline(games, s1))
@@ -325,7 +325,7 @@ void history(){
 		++i;
 		cout << act[i];
 		c_col(15);
-		cout << "     |  ";
+		cout << "     |";
 		c_col(10);
 		++i;
 		for(int j = 0; j < 10; ++j){
@@ -339,7 +339,7 @@ void history(){
 		c_col(10);
 		++i;
 		cout << act[i];
-		for(int j = 0; j < 13 - (int)act[i].size(); ++j)
+		for(int j = 0; j < 14 - (int)act[i].size(); ++j)
 			cout << " ";
 		c_col(15);
 		cout << "|" << '\n';

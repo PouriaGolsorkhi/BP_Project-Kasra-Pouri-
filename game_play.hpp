@@ -550,7 +550,7 @@ struct gameplay{
 	}
 	
 	void update(bool win){
-		int timer = time(0) - tb, r_changes = (win ? (n + m) * l / (timer / 60 + 1) : -50);
+		int timer = time(0) - tb, r_changes = (win ? min(300LL, (n + m) * l / (timer / 60 + 1)) : -50);
 		string s = ctime(&tb), ln;
 		ifstream hs("./accounts/games/" + user + ".txt");
 		vector<string> vec;
@@ -558,15 +558,17 @@ struct gameplay{
 			vec.push_back(ln);
 		hs.close();
 		ofstream histo("./accounts/games/" + user + ".txt");
-		histo << s << '\n';
+		histo << s;
 		histo << name << '\n';
 		histo << (win ? "Y" : "N") << '\n';
 		histo << timer << '\n';
+		if(r_changes > 0)
+			histo << '+';
 		histo << r_changes << '\n';
 		for(string &e: vec)
 			histo << e << '\n';
-		vec.clear();
 		histo.close();
+		vec.clear();
 		ifstream rnk("./accounts/ranking.txt");
 		while(getline(rnk, ln))
 			vec.push_back(ln);
