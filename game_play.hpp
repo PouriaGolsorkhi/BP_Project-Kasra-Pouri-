@@ -45,21 +45,24 @@ struct gameplay{
     	#ifdef  WINDOWS
         	SetConsoleTextAttribute(col, c);
 	    #else
-    	    c &= 15;
-        	if(c == 1)
-    	    	cout << "\033[35m";
-	        else if(c == 6)
-        		cout << "\033[32m";
-    		else if(c == 8)
-    			cout << "\033[31m";
-	    	else if(c == 9)
-    			cout << "\033[34m";
-    		else if(c == 10)
-    			cout << "\033[33m";
-	    	else if(c == 14)
-    			cout << "\033[36m";
-    		else if(c == 15)
-	    		cout << "\033[37m";
+    	    bool ch = c > 15;
+		c &= 15;
+	    if(c == 1)
+        	cout << (ch ? "\033[47m\033[35m" : "\033[35m");
+        else if(c == 6)
+    	    cout << (ch ? "\033[47m\033[32m" : "\033[32m");
+	    else if(c == 8)
+    		cout << (ch ? "\033[47m\033[31m" : "\033[31m");
+    	else if(c == 9)
+    		cout << (ch ? "\033[47m\033[34m" : "\033[34m");
+	    else if(c == 10)
+    		cout << (ch ? "\033[47m\033[33m" : "\033[33m");
+    	else if(c == 14)
+    		cout << (ch ? "\033[47m\033[36m" : "\033[36m");
+	    else if(c == 15)
+	    	cout << (ch ? "\033[47m\033[37m" : "\033[0m");
+	    else if(!c)
+    		cout << (ch? "\033[47m\033[37m": "\033[0m\033[0m");
 	    #endif
     	return;
 	}
