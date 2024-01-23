@@ -232,7 +232,7 @@ struct gameplay{
 				mark[c[0] + dx[i]][c[1] + dy[i]] = false;
 				ans.pop_back();
 			}
-			return;
+		return;
 	}
 
 	int rnd(int mn, int mx){
@@ -497,7 +497,7 @@ struct gameplay{
 		if(ok)
 			cout << "Unfortunately you lost! Now you can see the solution" << '\n';
 		else
-			cout << "Sorry seems this map doesn't have any solution" << '\n';
+			cout << "Sorry " << (give_up ? "probably " : " ") << "this map doesn't have any solution" << '\n';
 		cout << "press any key to continue ";
 		getch();
 		frombot = in_play = false;
@@ -553,7 +553,7 @@ struct gameplay{
 	}
 	
 	void update(bool win){
-		int timer = time(0) - tb, r_changes = (win ? min(300LL, (n + m) * l / (timer / 60 + 1)) : -50);
+		int timer = time(0) - tb, r_changes = (win ? min(300LL, (n + m) * l / (timer / 60 + 1)) : (ok ? -50 : 0));
 		string s = ctime(&tb), ln;
 		ifstream hs("./accounts/games/" + user + ".txt");
 		vector<string> vec;
