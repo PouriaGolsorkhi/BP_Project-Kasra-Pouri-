@@ -6,13 +6,13 @@
 #include <algorithm>
 #include <conio.h>
 #include "game_play.hpp"
+#include "chess.hpp"
 using namespace std;
 
 #define WINDOWS
 
 #ifdef WINDOWS
     #include <windows.h>
-    #include "chess.hpp"
     HANDLE col =  GetStdHandle(STD_OUTPUT_HANDLE);
 #endif
 
@@ -203,14 +203,12 @@ void sing_in(vector<pair<string, string>> &users){
 		if(b)
 			cout << "username or password is in correct" << '\n';
 		cout << "username: ";
-		flush(cout);
 		getline(cin, s1);
 		if(s1 == "sing up"){
 			sing_up(users);
 			return;
 		}
 		cout << "password: ";
-		flush(cout);
 		psw(s2);
 		if(s2 == "sing up"){
 			sing_up(users);
@@ -276,7 +274,7 @@ void enter(){
 
 void history(){
     string s1;
-	ifstream games("./accounts/games" + user + ".txt");
+	ifstream games("./accounts/games/" + user + ".txt");
 	head();
 	vector<string> act;
 	while(getline(games, s1))
@@ -327,7 +325,7 @@ void history(){
 		++i;
 		cout << act[i];
 		c_col(15);
-		cout << "     |  ";
+		cout << "     |";
 		c_col(10);
 		++i;
 		for(int j = 0; j < 10; ++j){
@@ -341,7 +339,7 @@ void history(){
 		c_col(10);
 		++i;
 		cout << act[i];
-		for(int j = 0; j < 13 - (int)act[i].size(); ++j)
+		for(int j = 0; j < 14 - (int)act[i].size(); ++j)
 			cout << " ";
 		c_col(15);
 		cout << "|" << '\n';
@@ -399,8 +397,7 @@ void leaderboard(){
 		cout << "|";
 		c_col(10);
 		cout << standing[i].second;
-		l = ceil(log10(standing[i].second + 1));
-		l = max(1, l);
+		l = max(1LL, (int)ceil(log10(standing[i].second + 1)));
 		for(int j = 0; j < 6 - l; ++j)
 			cout << " ";
 		c_col(15);
@@ -484,7 +481,7 @@ void menu(){
 			c_col(15);
 		if(s[0] == '8')
 			c_col(6);
-		cout << "  8. Chess" << endl;
+		cout << "  8. Chess (Just for fun)" << endl;
 		if(s[0] == '8')
 			c_col(15);
 		cout << "----------\nIf you want to select an option press it's section number\nAfter you set the section you want to go press enter key\n----------" << '\n';
@@ -543,21 +540,23 @@ void menu(){
 				continue;
 			}
 			if(s[0] == '3'){
-				//gameplay game;
-				//game.open(user, user1, s);
-				//s1 = ".";
+				gameplay game;
+				game.create(user, user1, s);
+				s1 = ".";
 				back = true;
 				continue;
 			}
 			if(s[0] == '2'){
-				gameplay game;
-				game.open(user, user1, s);
+				gameplay map;
+				map.create(user, user1, s);
 				s1 = ".";
 				back = true;
 				continue;
 			}
 			if(s[0] == '1'){
-				//createmp(s);
+				gameplay map;
+				map.create(user, user1, s);
+				back = true;
 				continue;
 			}
 		}
@@ -566,7 +565,7 @@ void menu(){
 	return;
 }
 
-int main(){
+signed main(){
 	enter();
 	return 0;
 }
