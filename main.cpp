@@ -20,8 +20,21 @@ void c_col(int c){
     #ifdef  WINDOWS
         SetConsoleTextAttribute(col, c);
     #else
-        //do something
-        return;
+        c &= 15;
+        if(c == 1)
+        	cout << "\033[35m";
+        else if(c == 6)
+        	cout << "\033[32m";
+    	else if(c == 8)
+    		cout << "\033[31m";
+    	else if(c == 9)
+    		cout << "\033[34m";
+    	else if(c == 10)
+    		cout << "\033[33m";
+    	else if(c == 14)
+    		cout << "\033[36m";
+    	else if(c == 15)
+    		cout << "\033[37m";
     #endif
     return;
 }
@@ -129,7 +142,6 @@ void sing_up(vector<pair<string, string>> &users){
 		if(b && s1 == "")
 			cout << "username can't be null" << '\n';
 		cout << "username: ";
-		flush(cout);
 		getline(cin, s1);
 		if(s1 == "sing in"){
 			sing_in(users);
@@ -149,7 +161,6 @@ void sing_up(vector<pair<string, string>> &users){
 		}
 		cout << "username: " << s1 << '\n';
 		cout << "password: ";
-		flush(cout);
 		psw(s2);
 		if(s2 == "sing in"){
 			sing_in(users);
@@ -157,7 +168,6 @@ void sing_up(vector<pair<string, string>> &users){
 		}
 		cout << '\n';
 		cout << "confirm passwaord: ";
-		flush(cout);
 		psw(s3);
 		if(s3 == "sing in"){
 			sing_in(users);
