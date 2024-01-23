@@ -497,7 +497,7 @@ struct gameplay{
 		if(ok)
 			cout << "Unfortunately you lost! Now you can see the solution" << '\n';
 		else
-			cout << "Sorry " << (give_up ? "probably " : " ") << "this map doesn't have any solution" << '\n';
+			cout << "Sorry" << (give_up ? " probably " : " ") << "this map doesn't have any solution" << '\n';
 		cout << "press any key to continue ";
 		getch();
 		frombot = in_play = false;
