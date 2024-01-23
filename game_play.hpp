@@ -186,6 +186,7 @@ struct gameplay{
 				continue;
 			}
 			ifstream mp("./maps/" + mapname[ind - 1] + ".txt");
+			ans.clear(), mark.clear(), maze.clear();
 			load_data(mp);
 			mp.close();
 			if(forplay){
