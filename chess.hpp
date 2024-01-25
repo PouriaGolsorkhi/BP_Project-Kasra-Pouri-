@@ -12,8 +12,6 @@ using namespace std;
 #endif
 
 struct chess{
-	private:
-	
 	#ifdef WINDOWS
 		HANDLE col = GetStdHandle(STD_OUTPUT_HANDLE);
 	#endif
@@ -55,15 +53,17 @@ struct chess{
 	}
 
 	void cls(){
-    	#ifdef WINDOWS
+    #ifdef WINDOWS
         	system("cls");
-	    #elifdef LINUX
-    	    system("clear");
+	#else
+		#ifdef LINUX    	    	
+			system("clear");
 		#else
-		cout << "\033[2J\033[1;1H";
+			cout << "\033[2J\033[1;1H";
     	#endif
-    	return;
-	}
+    #endif
+    return;
+}
 
 	void head_(){
 		cls();
@@ -92,7 +92,7 @@ struct chess{
 	vector<pair<string, string> > mvs[2];
 
 	struct cor{
-    	int x, y;
+    		int x, y;
 	};
 
 	pair<cor, long long> pre[8][8];
@@ -591,8 +591,6 @@ struct chess{
     	}
     	return;
 	}
-
-	public:
 
 	void mychess(string u1, string u){
 		user_ = u;
