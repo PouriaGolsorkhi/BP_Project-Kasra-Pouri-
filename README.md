@@ -45,5 +45,7 @@ It's a chess game just like real chess game.
 
 ### Other things:
 This game is userfriendly enough and I don't think any thing remain.
+
 -------------
+
 Enjoy it!
