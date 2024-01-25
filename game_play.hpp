@@ -6,6 +6,7 @@
 #include <conio.h>
 #include <math.h>
 #include <algorithm>
+#include "def.hpp"
 using namespace std;
 
 #ifdef WINDOWS
@@ -66,8 +67,8 @@ struct gameplay{
 	void cls(){
     	#ifdef WINDOWS
         	system("cls");
-	    #elifdef
-    	    	system("clear");
+	#elifdef LINUX    	    	
+		system("clear");
 	#else
 		cout << "\033[2J\033[1;1H";
     	#endif
