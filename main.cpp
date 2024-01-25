@@ -9,8 +9,6 @@
 #include "chess.hpp"
 using namespace std;
 
-#define WINDOWS
-
 #ifdef WINDOWS
     #include <windows.h>
     HANDLE col =  GetStdHandle(STD_OUTPUT_HANDLE);
@@ -45,8 +43,10 @@ void c_col(int c){
 void cls(){
     #ifdef WINDOWS
         system("cls");
-    #else
+    #elifdef LINUX
         system("clear");
+	#else
+		cout << "\033[2J\033[1;1H";
     #endif
     return;
 }
