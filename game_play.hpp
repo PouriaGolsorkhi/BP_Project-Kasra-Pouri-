@@ -8,13 +8,9 @@
 #include <algorithm>
 using namespace std;
 
-#define WINDOWS
-
 #ifdef WINDOWS
     #include <windows.h>
 #endif
-
-#define int long long
 
 #define rand() (int)(abs(rand()) + (int)time(0))
 
@@ -70,8 +66,10 @@ struct gameplay{
 	void cls(){
     	#ifdef WINDOWS
         	system("cls");
-	    #else
-    	    system("clear");
+	    #elifdef
+    	    	system("clear");
+	#else
+		cout << "\033[2J\033[1;1H";
     	#endif
     	return;
 	}
