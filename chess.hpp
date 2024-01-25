@@ -4,9 +4,8 @@
 #include <string>
 #include <stdlib.h>
 #include <conio.h>
+#include "def.hpp"
 using namespace std;
-
-#define WINDOWS
 
 #ifdef WINDOWS
 	#include <windows.h>
