@@ -169,7 +169,7 @@ struct gameplay{
 		ssp = 0;
 		for(int j = 0; j < m; ++j){
 			sp.push_back(0);
-			for(int i = 0; i < m; ++i)
+			for(int i = 0; i < n; ++i)
 				sp[j] = max(sp[j], max(1LL, (int)ceil(log10(abs(maze[i][j]) + 1))) + (int)(maze[i][j] < 0));
 			ssp += sp[j];
 		}
