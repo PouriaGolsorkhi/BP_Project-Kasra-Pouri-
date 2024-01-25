@@ -9,9 +9,7 @@
 It's suggested that run the project in console window.
 
 ## __Linux/Mac__ version:
-*   If you want to run it on Linux or Mac you can:
-    *   Dowload diffrent versions from [here](https://github.com/kasrafouladi/bpfinalproject).
-    *   Or open `def.hpp` and choose the OS witch you want.
+*   If you want to run it on Linux or Mac you can open `def.hpp` and choose the OS witch you want.
 
 ------------------------
 ## Some info about the game:
