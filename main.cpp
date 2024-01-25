@@ -43,11 +43,13 @@ void c_col(int c){
 
 void cls(){
     #ifdef WINDOWS
-        system("cls");
-    #elifdef LINUX
-        system("clear");
+        	system("cls");
 	#else
-		cout << "\033[2J\033[1;1H";
+		#ifdef LINUX    	    	
+			system("clear");
+		#else
+			cout << "\033[2J\033[1;1H";
+    	#endif
     #endif
     return;
 }
