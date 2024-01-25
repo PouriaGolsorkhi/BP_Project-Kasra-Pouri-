@@ -1,4 +1,3 @@
-#define int long long
 // Choose the OS wich you want
 #define WINDOWS
 //#define LINUX
