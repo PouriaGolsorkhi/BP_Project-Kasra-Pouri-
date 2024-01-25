@@ -13,9 +13,10 @@ using namespace std;
     #include <windows.h>
 #endif
 
-#define rand() (int)(abs(rand()) + (int)time(0))
-
 struct gameplay{
+	#define int long long
+	#define rand() (int)(abs(rand()) + (int)time(0))
+
 	#ifdef WINDOWS
 		HANDLE col =  GetStdHandle(STD_OUTPUT_HANDLE);
 	#endif
@@ -65,15 +66,17 @@ struct gameplay{
 	}
 
 	void cls(){
-    	#ifdef WINDOWS
+    #ifdef WINDOWS
         	system("cls");
-	#elifdef LINUX    	    	
-		system("clear");
 	#else
-		cout << "\033[2J\033[1;1H";
+		#ifdef LINUX    	    	
+			system("clear");
+		#else
+			cout << "\033[2J\033[1;1H";
     	#endif
-    	return;
-	}
+    #endif
+    return;
+}
 
 	char* date(){
 		time_t t = time(0);
