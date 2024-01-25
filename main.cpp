@@ -5,6 +5,7 @@
 #include <math.h>
 #include <algorithm>
 #include <conio.h>
+#include "def.hpp"
 #include "game_play.hpp"
 #include "chess.hpp"
 using namespace std;
